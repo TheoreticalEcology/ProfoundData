@@ -18,7 +18,7 @@ parseVariables <- function(dataset, variables = NULL){
   }else{
     variablesChecked <- variablesAvailable[variablesAvailable %in% variables ]
     variablesWrong <- variables[!variables %in% variablesAvailable ]
-    if(length(variablesWrong) > 1) warning(paste("The variables", paste(variablesWrong, collpase =", "), "do not exist in", dataset, sep = " "))
+    if(length(variablesWrong) > 1) warning(paste("The variables", paste(variablesWrong, collapse = ", "), "do not exist in", dataset, sep = " "))
     if (0 < length(variablesWrong) &  length(variablesWrong) < 2 ) warning(paste("The variable", variablesWrong, "does not exist in", dataset, sep = " "))
     if(length(variablesChecked) == 0) stop("Invalid variables")
  #     warning("Setting the variables to default")

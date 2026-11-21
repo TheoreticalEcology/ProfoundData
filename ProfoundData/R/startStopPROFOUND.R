@@ -1,9 +1,3 @@
-
-startStopPROFOUND <- function(data){
-
-}
-
-
 startStopPROFOUND.YEARLY <- function(data){
   data$record_id <- NULL
   columnsNot <- c("site", "site_id")
@@ -119,16 +113,6 @@ startStopPROFOUND.ISIMIP <- function(data){
 
 
 
-
-startStopPROFOUND.HOURLY <- function(data){
-
-}
-
-
-startStopPROFOUND.TREE <- function(data){
-
-
-}
 
 startStopPROFOUND.STAND <- function(data){
   data$record_id <- NULL

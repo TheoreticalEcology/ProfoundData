@@ -54,23 +54,6 @@ getData <- function(dataset, site = NULL, location = NULL, forcingDataset = NULL
   message(paste("Downloading data from" , dataset, "for the site", site,  sep = " "))
   tmp <- try(fetchQuery(tmp), F)
   if ('try-error' %in% class(tmp)){
-    if (tmp[["dataset"]] == "SITES"){
-      if(!is.null(tmp[["site"]])){
-        data <-getsites(tmp[["site"]])
-      }else{
-        data <- getsites()
-      }
-    }else  if (tmp[["dataset"]] == "SITEDESCRIPTION"){
-      if(!is.null(tmp[["site"]])){
-        data <-getSiteDescription(tmp[["dataset"]], tmp[["site"]])
-      }else{
-        data <- getSiteDescription(tmp[["dataset"]])
-      }
-    }else{
-      warning(tmp[["queried"]],  call. = FALSE)
-      stop("Could not fetch the query")
-    }
-    warning(tmp[["queried"]],  call. = FALSE)
     stop("Could not fetch the query")
   }
   data <- formatData(tmp)

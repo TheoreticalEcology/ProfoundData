@@ -20,15 +20,15 @@ parseQuery <- function(dataset, site, forcingDataset = NULL,
   # Clean up the dataset and the dataset options
   dataset <- gsub(" ", "",  dataset)
   dataset <- gsub("-", "",  dataset)
-  dataset <- gsub("+", "",  dataset)
+  dataset <- gsub("+", "", dataset, fixed = TRUE)
   if(!is.null(forcingDataset)){
     forcingDataset <- gsub(" ", "",  forcingDataset)
     forcingDataset <- gsub("-", "",  forcingDataset)
-    forcingDataset <- gsub("+", "",  forcingDataset)
+    forcingDataset <- gsub("+", "", forcingDataset, fixed = TRUE)
     if(!is.null(forcingCondition)){
       forcingCondition <- gsub(" ", "",  forcingCondition)
       forcingCondition <- gsub("-", "",  forcingCondition)
-      forcingCondition <- gsub("+", "",  forcingCondition)
+      forcingCondition <- gsub("+", "", forcingCondition, fixed = TRUE)
       dataset <- paste(dataset, forcingDataset, forcingCondition, sep = "_")
     }else{
       dataset <- paste(dataset, forcingDataset, sep = "_")
@@ -36,13 +36,13 @@ parseQuery <- function(dataset, site, forcingDataset = NULL,
   }else if(!is.null(forcingCondition)){
     forcingCondition <- gsub(" ", "",  forcingCondition)
     forcingCondition <- gsub("-", "",  forcingCondition)
-    forcingCondition <- gsub("+", "",  forcingCondition)
+    forcingCondition <- gsub("+", "", forcingCondition, fixed = TRUE)
     dataset <- paste(dataset, forcingCondition, sep = "_")
   }
   if(dataset == "TREE" || dataset == "STAND"){
     if(!is.null(species)){
       species <- gsub("-", "",  species)
-      species <- gsub("+", "",  species)
+      species <- gsub("+", "", species, fixed = TRUE)
       species <- getTreeSpecies(species)
       dataset <- paste(dataset, species, sep = "_")
     }

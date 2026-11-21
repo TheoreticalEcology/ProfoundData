@@ -58,7 +58,7 @@ browseData <- function(dataset = NULL, site = NULL,  location = NULL, variables 
   }else if(is.null(site)){
     dataset <- gsub(" ", "",  dataset)
     dataset <- gsub("-", "",  dataset)
-    dataset <- gsub("+", "",  dataset)
+    dataset <- gsub("+", "", dataset, fixed = TRUE)
     if(dataset == "ENERGYBALANCE"){
       warning("Dataset 'ENERGYBALANCE' is deprecated.\nUse 'ATMOSPHERICHEATCONDUCTION' instead.",
               call. = FALSE)
@@ -125,7 +125,7 @@ browseData <- function(dataset = NULL, site = NULL,  location = NULL, variables 
     site <- getsites(site)
     dataset <- gsub(" ", "",  dataset)
     dataset <- gsub("-", "",  dataset)
-    dataset <- gsub("+", "",  dataset)
+    dataset <- gsub("+", "", dataset, fixed = TRUE)
     if(dataset == "ENERGYBALANCE"){
       warning("Dataset 'ENERGYBALANCE' is deprecated.\nUse 'ATMOSPHERICHEATCONDUCTION' instead.",  call. = FALSE
               )

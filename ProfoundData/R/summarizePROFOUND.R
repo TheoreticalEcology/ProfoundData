@@ -188,7 +188,7 @@ summarizePROFOUND.FLUX <- function(data, by = "total"){
     }else if (by == "day"){
       mo <- unique(subData$mo)
       day <- unique(subData$day)
-      date <- paste(year, day, mo, sep = "-")
+      date <- paste(year, mo, day, sep = "-")
       subSummary <- as.data.frame(cbind(site, site_id, year,mo, day, date, subSummary))
       subSummary$date <- as.Date(subSummary$date, format = "%Y-%m-%d")
     }

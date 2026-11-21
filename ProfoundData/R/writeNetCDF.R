@@ -15,7 +15,7 @@
 #' for which 2005co2 is explicitly written.  Note: even models in which CO2 has
 #' no effect should use the co2 identifier relevant to the experiment.  Default
 #' value: "co2const".
-#' @param start the start year of the simulation. Default value: 1980.
+#' @param start not used; the start and end years are taken from the column time.
 #' @param region the region or site of the simulation
 #' @param folder The folder in which all netCDF files will be written
 #' @param contact Your mail address
@@ -28,6 +28,8 @@
 #' -files and writes them into the indicated folder using the naming convention of
 #'  the ISIMIP2(B)-protocol (https://www.isimip.org/protocol/). Units and long names
 #'  of variables (table 21) will be created automatically.
+#' @return TRUE if a file was written for every output variable, otherwise FALSE
+#'  (with a message explaining the problem).
 #' @example /inst/examples/writeSim2netCDFHelp.R
 #' @export
 #' @author Friedrich J. Bohn
@@ -252,7 +254,7 @@ writeSim2netCDF<-function(df
                  quro={variable_long<-paste(variable_long,"Quercus robur")},
                  qupe={variable_long<-paste(variable_long,"Quercus petraea")},
                  pisy={variable_long<-paste(variable_long,"Pinus sylvestris")},
-                 piab={variable_long<-paste(variable_long,"Pinus pinaster ")},
+                 piab={variable_long<-paste(variable_long,"Picea abies")},
                  lade={variable_long<-paste(variable_long,"Larix decidua")},
                  eugl={variable_long<-paste(variable_long,"Eucalyptus globulus")},
                  acpl={variable_long<-paste(variable_long,"Acer platanoides ")},
@@ -260,7 +262,7 @@ writeSim2netCDF<-function(df
                  frex={variable_long<-paste(variable_long,"Fraxinus excelsior")},
                  poni={variable_long<-paste(variable_long,"Populus nigra")},
                  rops={variable_long<-paste(variable_long,"Robinia pseudoacacia")},
-                 hawo={variable_long<-paste(variable_long,"Fagus sylvatica")},
+                 hawo={variable_long<-paste(variable_long,"hard woods")},
                  domhei={},
                  height={},
                  {
@@ -281,7 +283,7 @@ writeSim2netCDF<-function(df
         }
 
         # write netCDF file
-        write.netCDF(df
+        written <- write.netCDF(df
                      ,variable
                      ,variable_long=variable_long
                      ,unit= unit
@@ -296,6 +298,7 @@ writeSim2netCDF<-function(df
                      ,ss=ss
                      ,region=region
                      ,folder=folder)
+        if (identical(written, FALSE)) return(FALSE)
         }
       return (TRUE)
       }
@@ -337,7 +340,7 @@ write.netCDF<-function(df
 
 
   #create file
-  ncout <- RNetCDF::create.nc(filename, large=TRUE)
+  ncout <- RNetCDF::create.nc(filename)
 
   #definitions
   RNetCDF::dim.def.nc(ncout, "lon", 1)
@@ -348,12 +351,12 @@ write.netCDF<-function(df
   RNetCDF::var.def.nc(ncout, "lon", "NC_FLOAT", "lon")
   RNetCDF::att.put.nc(ncout, "lon", "long_name", "NC_CHAR", "longitude")
   RNetCDF::att.put.nc(ncout, "lon", "standard_name", "NC_CHAR", "longitude")
-  RNetCDF::att.put.nc(ncout, "lon", "unit", "NC_CHAR", "degrees_east")
+  RNetCDF::att.put.nc(ncout, "lon", "units", "NC_CHAR", "degrees_east")
 
-  RNetCDF::var.def.nc(ncout, "lat", "NC_INT", "lat")
+  RNetCDF::var.def.nc(ncout, "lat", "NC_FLOAT", "lat")
   RNetCDF::att.put.nc(ncout, "lat", "long_name", "NC_CHAR", "latitude")
   RNetCDF::att.put.nc(ncout, "lat", "standard_name", "NC_CHAR", "latitude")
-  RNetCDF::att.put.nc(ncout, "lat", "unit", "NC_CHAR", "degrees_north")
+  RNetCDF::att.put.nc(ncout, "lat", "units", "NC_CHAR", "degrees_north")
 
   RNetCDF::var.def.nc(ncout, "time", "NC_INT", "time")
   RNetCDF::att.put.nc(ncout, "time", "units", "NC_CHAR", "years since 1901-01-01")

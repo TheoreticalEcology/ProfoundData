@@ -25,8 +25,7 @@ getDatasets <- function(dataset = NULL){
       dataset.checked  <- 0
     }
   }else{
-    dataset.checked <- datasets.available[!grepl("_[0-9]", datasets.available)]
-    dataset.checked <- datasets.available[!grepl("OVERVIEW", datasets.available)]
+    dataset.checked <- datasets.available[!grepl("_[0-9]|OVERVIEW", datasets.available)]
   }
   return(dataset.checked)
 }

@@ -9,6 +9,12 @@ Minor changes
 Bugfixes 
 
 - corrected flux unit conversion error in summarizeData() (see commit 3dfa079142654780a9bb74da8cca3754bf0c4f26)
+- summarizeData(dataset = "FLUX", by = "day") returned missing or wrong dates (day and month swapped) (#46)
+- writeSim2netCDF() stored the latitude as integer, labelled piab and hawo with wrong species names, wrote the attribute "unit" instead of "units", returned TRUE when no file was written, and warned that the argument large of RNetCDF::create.nc() is deprecated; the example now writes its files (#46)
+- browseData(dataset = "DATASETS") also listed the site-specific tables (#46)
+- database queries left a connection open; queryDB() now also disconnects after a failed query and gives a clean error message (#46)
+- reportDB() used the large plot size for ATMOSPHERICHEATCONDUCTION (#46)
+- smaller fixes: "+" is now removed from dataset and species names, plotData() refuses SITEDESCRIPTION, getData() gives "Could not fetch the query" instead of "subscript out of bounds", and the warning about non-existing variables separates them with commas (#46)
 
 # ProfoundData 0.2.1 
 

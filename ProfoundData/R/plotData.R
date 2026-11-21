@@ -43,7 +43,7 @@ plotData <- function(dataset, site, location=NULL,forcingDataset = NULL,
     dataset <- "ATMOSPHERICHEATCONDUCTION"
   }
 
-  notSupportedDatasets <- c("OVERVIEW", "SITES", "SOIL", "POLICY", "SOURCE", "SITEDESCRITPION",
+  notSupportedDatasets <- c("OVERVIEW", "SITES", "SOIL", "POLICY", "SOURCE", "SITEDESCRIPTION",
                             "OVERVIEW_EXTENDED")
   if(dataset %in% notSupportedDatasets) stop("Plotting is not supported")
   # parse and test the query
@@ -74,7 +74,7 @@ plotData <- function(dataset, site, location=NULL,forcingDataset = NULL,
     plotPROFOUND.MODIS(tmp )
   }else if (grepl("ISIMIP", tmp[["dataset"]]))  {
     plotPROFOUND.ISIMIP(tmp )
-  }else if (!"date" %in% names(data)){
+  }else if (!"date" %in% names(tmp$data)){
     #cat("\n");cat("yearly");cat("\n")
     plotPROFOUND.YEARLY(tmp)
       # this is any daily data
