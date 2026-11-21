@@ -59,5 +59,9 @@ jobs:
           working-directory: ProfoundData
 
       - uses: r-lib/actions/check-r-package@v2
+        env:
+          # The tests need the database (2.8 GB): skip them via skip_on_cran(), as on CRAN.
+          # Set here because setup-r sets NOT_CRAN=true for the job.
+          NOT_CRAN: 'false'
         with:
           working-directory: ProfoundData
