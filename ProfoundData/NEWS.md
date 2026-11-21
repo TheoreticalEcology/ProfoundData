@@ -1,4 +1,4 @@
-# ProfoundData 0.3.0 
+# ProfoundData (development version)
 
 Minor changes
 
