@@ -2,7 +2,6 @@
 
 # test whether subsetting a period works with collapse
 
-context("Test basic")
 set.seed(1)
 
 library(ProfoundData)
@@ -28,9 +27,8 @@ dataset <- sample(datasets, 1)
 
 test_that(paste( dataset, " : subset a complete period"), {
     #runtests
-    skip_on_travis()
+    skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
     skip_on_cran()
-    # Please put here the path to the DB on your personal computer!!
     setDB(databaseLocation)
     #  cat("\n");cat(datasets[i]); cat("\n");cat(rep("-", 30), collpase="") ;cat("\n")
     suppressMessages(sites <- browseData(dataset = dataset))
@@ -51,9 +49,8 @@ dataset <- sample(datasets, 1)
 
 test_that(paste( dataset, " : subset period only with start"), {
     #runtests
-    skip_on_travis()
+    skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
     skip_on_cran()
-    # Please put here the path to the DB on your personal computer!!
     setDB(databaseLocation)
     #  cat("\n");cat(datasets[i]); cat("\n");cat(rep("-", 30), collpase="") ;cat("\n")
     suppressMessages(sites <- browseData(dataset = dataset))
@@ -74,9 +71,8 @@ dataset <- sample(datasets, 1)
 
 test_that(paste( dataset, " : subset period with NA and end"), {
     #runtests
-    skip_on_travis()
+    skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
     skip_on_cran()
-    # Please put here the path to the DB on your personal computer!!
     setDB(databaseLocation)
     # #  cat("\n");cat(datasets[i]); cat("\n");cat(rep("-", 30), collpase="") ;cat("\n")
     suppressMessages(sites <- browseData(dataset = dataset))
@@ -97,9 +93,8 @@ dataset <- sample(datasets, 1)
 
 test_that(paste( dataset, " : subset period with start and NA"), {
     #runtests
-    skip_on_travis()
+    skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
     skip_on_cran()
-    # Please put here the path to the DB on your personal computer!!
     setDB(databaseLocation)
     #  cat("\n");cat(datasets[i]); cat("\n");cat(rep("-", 30), collpase="") ;cat("\n")
     suppressMessages(sites <- browseData(dataset = dataset))

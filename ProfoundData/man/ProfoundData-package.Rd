@@ -2,13 +2,13 @@
 % Please edit documentation in R/ProfoundData.R
 \docType{package}
 \name{ProfoundData-package}
-\alias{ProfoundData-package}
 \alias{ProfoundData}
+\alias{ProfoundData-package}
 \title{Overview of the functions in the ProfoundData package}
 \description{
-The ProfoundData R package provides functions to explore, visualize and get data from the PROFOUND database.  The development of the PROFOUND database and the ProfoundData R package was faciliated by COST Action FP1304 PROFOUND.
+The ProfoundData R package provides functions to explore, visualize and get data from the PROFOUND database.  The development of the PROFOUND database and the ProfoundData R package was facilitated by COST Action FP1304 PROFOUND.
 
-A brief description of the PROFOUND database is avalaible in the vignette 'PROFOUNDdatabase' (
+A brief description of the PROFOUND database is available in the vignette 'PROFOUNDdatabase' (
 you can open it by running this command: \code{vignette('PROFOUNDdatabase')}).
 
 Note: before you can use the package, you need to download the database via \code{\link{downloadDatabase}} and
@@ -56,7 +56,7 @@ vignette for more information and examples (\code{vignette('ProfoundData')}).
 }
 
 \section{IV. Utilities}{
- Miscellanous
+ Miscellaneous
 \itemize{
  \item \code{\link{downloadDatabase}} To download the database
  \item \code{\link{setDB}} To set the connection to the database
@@ -67,8 +67,17 @@ vignette for more information and examples (\code{vignette('ProfoundData')}).
 }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://theoreticalecology.github.io/ProfoundData/}
+  \item \url{https://github.com/TheoreticalEcology/ProfoundData}
+  \item Report bugs at \url{https://github.com/TheoreticalEcology/ProfoundData/issues}
+}
+
+}
 \author{
-Except where indicated otherwise, the functions in this package were written by Ramiro Silveyra Gonzalez, Christopher Reyer, Florian Hartig and Mahnken. Ramiro Silveyra Gonzalez was the main developer of the package. Florian Hartig is currently the maintainer.
+Except where indicated otherwise, the functions in this package were written by Ramiro Silveyra Gonzalez, Christopher Reyer, Florian Hartig and Mats Mahnken. Ramiro Silveyra Gonzalez was the main developer of the package. Florian Hartig is currently the maintainer.
 }
 \keyword{DB}
 \keyword{Profound}

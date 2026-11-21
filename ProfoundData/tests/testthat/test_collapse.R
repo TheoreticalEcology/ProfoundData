@@ -2,23 +2,22 @@
 
 # test whether collapse works
 
-context("Test basic")
 set.seed(1)
 
 library(ProfoundData)
 
 
 testNoCollapse <- function(tmp){
-  expect_true(class(tmp) == "list")
+  expect_type(tmp, "list")
+  expect_false(is.data.frame(tmp))
 }
 testCollapse <- function(tmp){
-  expect_true(class(tmp) == "data.frame")
+  expect_s3_class(tmp, "data.frame")
 }
 
 test_that("No collapse works", {
-  skip_on_travis()
+  skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
   skip_on_cran()
-  # Please put here the path to the DB on your personal computer!!
   setDB(db_name = databaseLocation)
 
   datasets <- c("CLIMATE_ISIMIP2A",  "CO2_ISIMIP", "CLIMATE_ISIMIP2B", "CLIMATE_ISIMIP2BLBC",
@@ -35,9 +34,8 @@ test_that("No collapse works", {
 })
 
 test_that("Collapse works", {
-  skip_on_travis()
+  skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
   skip_on_cran()
-  # Please put here the path to the DB on your personal computer!!
   setDB(db_name = databaseLocation)
 
   datasets <- c("CLIMATE_ISIMIP2A",  "CO2_ISIMIP", #"CLIMATE_ISIMIP2B", #"CLIMATE_ISIMIP2BLBC"

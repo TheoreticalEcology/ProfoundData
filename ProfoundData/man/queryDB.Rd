@@ -9,12 +9,15 @@ queryDB(queryItem)
 \arguments{
 \item{queryItem}{a character string providing the query}
 }
+\value{
+a data frame with the result of the query.
+}
 \description{
 A queryDB function to perform self-defined queries on the PROFOUND database.
 }
 \note{
 To report errors in the package or the data, please use the issue tracker
-in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 }
 \examples{
 # example requires that a sql DB is registered via setDB(dbfile)

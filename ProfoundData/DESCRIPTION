@@ -23,18 +23,15 @@ Imports:
     RSQLite (>= 1.1-2),
     RNetCDF (>= 1.9-1),
     settings (>= 0.2.4),
-    zoo (>= 1.7-14),
-    tcltk
+    zoo (>= 1.7-14)
 License: GPL-3
-LazyData: true
 Suggests:
     knitr (>= 1.15.1),
     rmarkdown (>= 1.3),
     R.rsp (>= 0.40.0),
-    testthat (>= 1.0.2),
-    BayesianTools
+    testthat (>= 1.0.2)
 VignetteBuilder: R.rsp
-URL: https://cost-fp1304-profound.github.io/ProfoundData/
-BugReports: https://github.com/COST-FP1304-PROFOUND/ProfoundData/issues
-RoxygenNote: 7.0.2.9000
+URL: https://theoreticalecology.github.io/ProfoundData/, https://github.com/TheoreticalEcology/ProfoundData
+BugReports: https://github.com/TheoreticalEcology/ProfoundData/issues
 Encoding: UTF-8
+Config/roxygen2/version: 8.1.1

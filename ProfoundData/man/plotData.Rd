@@ -60,13 +60,13 @@ from the PROFOUND database.
 }
 \details{
 Plotting is not supported for the following datasets: OVERVIEW, SITES, SOIL(more). The aggregation of data
-relies on the function \code{\link{aggregate}} for \code{\link{zoo}} objects. The FUN parameter
-is passed to FUN from \code{\link{aggregate}}. Please check the help files of  \code{\link{aggregate}}
+relies on the function \code{\link[zoo]{aggregate.zoo}} for \code{\link[zoo]{zoo}} objects. The FUN parameter
+is passed to FUN from \code{\link[zoo]{aggregate.zoo}}. Please check the help files of  \code{\link[zoo]{aggregate.zoo}}
 for further information. For handling NAs we recommend to pass self-defined functions (see examples).
 }
 \note{
 To report errors in the package or the data, please use the issue tracker
-in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 }
 \examples{
 # example requires that a sql DB is registered via setDB(dbfile)

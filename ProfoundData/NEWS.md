@@ -5,6 +5,10 @@ Minor changes
 - renamed variable "Jcm2day" to "Jcm2"
 - updated DOI and download links to reference to DB version 0.3 
 - minor change to plotting TREE variables
+- citation("ProfoundData") cites the published data paper (Reyer et al. 2020, Earth System Science Data) (#44)
+- links in DESCRIPTION and help pages point to the TheoreticalEcology repository and website (#44)
+- tcltk and BayesianTools are no longer dependencies (#44)
+- fixes for CRAN check NOTEs (LazyData, help links) and return values added to help pages (#44)
 
 Bugfixes 
 

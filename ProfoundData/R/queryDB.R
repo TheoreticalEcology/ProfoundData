@@ -2,10 +2,11 @@
 #'
 #' @description A queryDB function to perform self-defined queries on the PROFOUND database.
 #' @param queryItem a character string providing the query
+#' @return a data frame with the result of the query.
 #' @export
 #' @example /inst/examples/queryDBHelp.R
 #' @note To report errors in the package or the data, please use the issue tracker
-#' in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+#' in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 queryDB <- function(queryItem) {
   # check the item, check if site is list or
   #run.function <- TRUE

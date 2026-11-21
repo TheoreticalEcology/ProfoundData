@@ -5,9 +5,9 @@
 #' @param site a character string providing the name of a site.
 #' @param location deprecated argument. Please use site instead.
 #' @param dataset a character string providing the name of a climatic dataset
-#' (CLIMATE_LOCAL, CLIMATE_ISIMIP, ...) or the tree dataset.(change this you )
+#' (CLIMATE_LOCAL, CLIMATE_ISIMIP, ...), TREE, FLUX, or STAND (only with mode = "overview").
 #' @param by a character string indicating how to summarize the data. Currently supports
-#' by year and total. The latter refers to the entire available period.
+#' by year and total. The latter refers to the entire available period. For FLUX, day is also possible.
 #' @param forcingDataset a character string providing the name of a forcingDataset.
 #' Only relevant for ISIMIP datasets.
 #' @param forcingCondition a character string providing the name of a forcingCondition.
@@ -20,7 +20,7 @@
 #' @return a data frame with the summary values
 #' @keywords ProfoundData
 #' @note To report errors in the package or the data, please use the issue tracker
-#' in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+#' in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 #' @section Summary values: Summary is calculated by year
 #' \itemize{
 #'   \item Climatic datasets
@@ -31,13 +31,12 @@
 #'   \item TREE dataset
 #'    \itemize{
 #'    \item density_treeha is the number of tree per ha
-#'    \item dbhArit_cm is the arithmetic mean diameter
-#'    \item dbhBa_cm is the average diameter weighted by basal area calculated as dbhBA = (ba1*dbh1 + ba2*dbh2 + ... + bak*dbhk) / (ba1 + ba2+ ... + bak), where bai and dbhi are the basal area and dbh, respectively, of the tree i, and  i = 1, 2, . . , k
+#'    \item dbhArith_cm is the arithmetic mean diameter
+#'    \item dbhBA_cm is the average diameter weighted by basal area calculated as dbhBA = (ba1*dbh1 + ba2*dbh2 + ... + bak*dbhk) / (ba1 + ba2+ ... + bak), where bai and dbhi are the basal area and dbh, respectively, of the tree i, and  i = 1, 2, . . , k
 #'    \item dbhDQ_cm is the mean squared diameter or quadratic mean diameter calculated as dbhDQ = sqrt( (dbh1^2 + dbh2^2+ ... + dbhk^2) / N),  where dbhi is the diameter at breast height of tree i,   i = 1, 2, . . , k, N is the total number of trees, and sqrt is the square root
 #'    \item heightArith_m is the arithmetic mean height
-#'    \item heightArith_m is the average height weighted by basal area or Loreys height calculated as heightBA = (ba1*h1 + ba2*h2 + ... + bak*hk) / (ba1 + ba2+ ... + bak), where bai and hi are the basal area and height, respectively, of the tree i, and  i = 1, 2, . . , k
-#'    \item heightBA_m
-#'    \item ba_m2 is the basal area per hectare
+#'    \item heightBA_m is the average height weighted by basal area or Loreys height calculated as heightBA = (ba1*h1 + ba2*h2 + ... + bak*hk) / (ba1 + ba2+ ... + bak), where bai and hi are the basal area and height, respectively, of the tree i, and  i = 1, 2, . . , k
+#'    \item ba_m2ha is the basal area per hectare
 #'    }
 #' }
 #' @details Data are summarized by years. Radiation and precipitation are provided as total yearly

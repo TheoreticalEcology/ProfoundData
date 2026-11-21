@@ -46,7 +46,7 @@ to access the database metadata, policy,  data sources and site descriptions.
 }
 \note{
 To report errors in the package or the data, please use the issue tracker
-in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 }
 \examples{
 # example requires that a sql DB is registered via setDB(dbfile)

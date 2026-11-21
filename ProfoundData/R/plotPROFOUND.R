@@ -1,6 +1,6 @@
 plotPROFOUND.TREE <-function(tmp){
   data <- tmp[["data"]]
-  if(!class(data)=="data.frame") stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
+  if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
   st.err <- function(x) {
     sd(x, na.rm = T)/sqrt(length(x))
   }
@@ -30,7 +30,6 @@ plotPROFOUND.TREE <-function(tmp){
       epsilon <- 0.1
       yearRange <- range(dataSpp$year, na.rm = T)
      # cat("There are ");cat(overviewPlots);cat(" plots")
-      #if(tmp[["automaticPanels"]] == T) oldpar <- par(mfrow = BayesianTools:::getPanels(overviewPlots+length(years) ))
       if(tmp[["automaticPanels"]] == T){
         oldpar <- par(mfrow = getPanels(overviewPlots), mar=c(2,2,2,0.5))
         on.exit(par(oldpar)) 
@@ -109,7 +108,7 @@ plotPROFOUND.TREE <-function(tmp){
 
 plotPROFOUND.STAND <-function(tmp){
   data <- tmp[["data"]]
-  if(!class(data)=="data.frame") stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
+  if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
   standVariables <- c("foliageBiomass_kgha", "branchesBiomass_kgha", "stemBiomass_kgha",#"age",# age is too trivial
                       "rootBiomass_kgha", "stumpCoarseRootBiomass_kgha", "coarseBiomass_kgha",
                       "LAI", "lai", "height_m", "dbh_cm", "density_ha", "stem", "aboveGroundBiomass_kgha",
@@ -149,7 +148,7 @@ plotPROFOUND.STAND <-function(tmp){
 
 plotPROFOUND.DAILY <-function(tmp, forcing = NULL){
   data <- tmp[["data"]]
-  if(!class(data)=="data.frame") stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
+  if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
   if(!"date" %in% colnames(data)) stop("Missing date!", call. = FALSE)
   if(!"year" %in% colnames(data)) stop("Missing year!", call. = FALSE)
   if(!"mo" %in% colnames(data)) stop("Missing mo!", call. = FALSE)
@@ -198,7 +197,7 @@ plotPROFOUND.DAILY <-function(tmp, forcing = NULL){
 
 plotPROFOUND.HALFHOURLY <- function(tmp){
   data <- tmp[["data"]]
-  if(!class(data)=="data.frame") stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
+  if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
   if(!"date" %in% colnames(data)) stop("Missing date!", call. = FALSE)
   if(!"year" %in% colnames(data)) stop("Missing year!", call. = FALSE)
   if(!"mo" %in% colnames(data)) stop("Missing mo!", call. = FALSE)
@@ -254,7 +253,7 @@ plotPROFOUND.HALFHOURLY <- function(tmp){
 
 plotPROFOUND.YEARLY <- function(tmp, forcing = NULL){
   data <- tmp[["data"]]
-  if(!class(data)=="data.frame") stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
+  if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
   if(!"year" %in% colnames(data)) stop("Missing year!", call. = FALSE)
   data$date <- data$year
   data.ts <- ts(data, start=min(data$date), end= max(data$date), frequency=1)
@@ -283,7 +282,7 @@ plotPROFOUND.YEARLY <- function(tmp, forcing = NULL){
 
 plotPROFOUND.MODIS <- function(tmp){
   data <- tmp[["data"]]
-  if(!class(data)=="data.frame") stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
+  if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
   if(!"date" %in% colnames(data)) stop("Missing date!", call. = FALSE)
   if(!"year" %in% colnames(data)) stop("Missing year!", call. = FALSE)
   if(!"mo" %in% colnames(data)) stop("Missing mo!", call. = FALSE)
@@ -328,7 +327,7 @@ plotPROFOUND.MODIS <- function(tmp){
 
 plotPROFOUND.ISIMIP <- function(tmp){
   data <- tmp[["data"]]
-  if (class(data) == "data.frame"){
+  if (inherits(data, "data.frame")){
     # check whether is daily or yearly
     if (!"date" %in% names(data)) {
       tmp[["data"]] <- data[,colSums(is.na(data))<nrow(data)]
@@ -337,9 +336,9 @@ plotPROFOUND.ISIMIP <- function(tmp){
       tmp[["data"]] <- data[,colSums(is.na(data))<nrow(data)]
       plotPROFOUND.DAILY(tmp)
     }
-  }else if (class(data) == "list"){
+  }else if (inherits(data, "list")){
     message("You are trying to plot several forcings. It will take long!")
-    if (class(data[[1]]) == "list"){
+    if (inherits(data[[1]], "list")){
       for (i in 1:length(data)){
         for (j in 1:length(data[[i]])){
           # check whether is daily or yearly
@@ -352,7 +351,7 @@ plotPROFOUND.ISIMIP <- function(tmp){
           }
         }
       }
-    }else if (class(data[[1]]) == "data.frame"){
+    }else if (inherits(data[[1]], "data.frame")){
       for (i in 1:length(data)){
         # check whether is daily or yearly
         if (!"date" %in% names(data[[i]])) {

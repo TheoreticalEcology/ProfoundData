@@ -15,7 +15,7 @@ used as output directory.}
 a html file with the database report
 }
 \description{
-This functions creates a site-by-site report of all avalaible data
+This functions creates a site-by-site report of all available data
 in the PROFOUND database. The summary is created with a rmarkdown document, which
 is rendered and saved as a html document.
 }
@@ -24,7 +24,7 @@ Please note that creating the report it might take several minutes.
 }
 \note{
 To report errors in the package or the data, please use the issue tracker
-in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 }
 \examples{
 # example requires that a sql DB is registered via setDB(dbfile)
