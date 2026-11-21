@@ -1,5 +1,5 @@
 
-# Note: this is from BayesianTools, should be removed as soon as a BT udpate with export is on CRAN
+# Note: copied from BayesianTools::getPanels()
 
 #' getPanels
 #' 
@@ -7,6 +7,7 @@
 #' 
 #' @author Florian Hartig
 #' @param x the desired number of panels 
+#' @return a numeric vector of length 2 with the number of rows and columns of panels.
 #' @export
 getPanels <- function(x){
   if (x <= 0) stop("number can't be < 1")

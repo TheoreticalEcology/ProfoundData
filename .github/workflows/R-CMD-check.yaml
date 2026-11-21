@@ -43,14 +43,12 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      # System libraries for RNetCDF and tcltk; Xvfb provides a display for tcltk.
+      # System libraries for RNetCDF.
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libnetcdf-dev libudunits2-dev netcdf-bin tk-dev xvfb
-          Xvfb :99 &
-          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+          sudo apt-get install -y libnetcdf-dev libudunits2-dev netcdf-bin
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

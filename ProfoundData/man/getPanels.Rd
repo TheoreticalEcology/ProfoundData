@@ -9,6 +9,9 @@ getPanels(x)
 \arguments{
 \item{x}{the desired number of panels}
 }
+\value{
+a numeric vector of length 2 with the number of rows and columns of panels.
+}
 \description{
 Calculates the argument x for par(mfrow = x) for a desired number of panels
 }

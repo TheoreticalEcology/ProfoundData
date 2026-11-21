@@ -9,12 +9,15 @@ setDB(db_name = NULL)
 \arguments{
 \item{db_name}{a character string providing the absolute path to the PROFOUND database.}
 }
+\value{
+invisibly, a list with the path to the database (\code{dbname}) and the database driver (\code{driver}) that are now used by the package.
+}
 \description{
-A setDB funtion to  create a database connection object
+A setDB function to create a database connection object
 }
 \note{
 To report errors in the package or the data, please use the issue tracker
-in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 }
 \examples{
 \dontrun{

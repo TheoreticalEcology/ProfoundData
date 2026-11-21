@@ -20,13 +20,14 @@ getDB <- function(){
 
 #' @title A function to set the connection to the database
 #'
-#' @description A setDB funtion to  create a database connection object
+#' @description A setDB function to create a database connection object
 #' @param db_name a character string providing the absolute path to the PROFOUND database.
+#' @return invisibly, a list with the path to the database (\code{dbname}) and the database driver (\code{driver}) that are now used by the package.
 #' @export
 #' @seealso \code{\link{getDB}}, \code{\link{downloadDatabase}}  
 #' @example /inst/examples/download-set-get-DBHelp.R
 #' @note To report errors in the package or the data, please use the issue tracker
-#' in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+#' in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 setDB <- function(db_name = NULL){
   if(is.null(db_name)) db_name <- file.choose()
   
@@ -62,8 +63,7 @@ dbConnection <- settings::options_manager(dbname=NA, driver=RSQLite::SQLite())
 #' @export
 #' @author Florian Hartig
 downloadDatabase<- function(location=NULL){
-  
-  #if(is.null(location)) location = choose_directory()
+
   if(is.null(location)) location = getwd()
   file = paste(location, "/ProfoundData.zip", sep = "")
   download.file("http://www.pik-potsdam.de/data/doi/10.5880/PIK.2020.006/ProfoundData.zip"
@@ -77,16 +77,3 @@ downloadDatabase<- function(location=NULL){
   if(file.exists(sqlFile)) message(paste("unzip successfull, your database file is at", sqlFile, ". Please store this location for initializing the PROFOUND R functions"))
   return(sqlFile) 
 }
-
-
-# currently not used because it didn't seem to work on all OS without problems
-choose_directory = function(caption = 'Select database download directory') {
-  if (exists('utils::choose.dir')) {
-    choose.dir(caption = caption) 
-  } else {
-    tcltk::tk_choose.dir(caption = caption)
-  }
-}
-
-
-

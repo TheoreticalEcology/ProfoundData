@@ -1,10 +1,7 @@
-#' @docType package
-#' @aliases ProfoundData
-#' @name ProfoundData-package
 #' @title Overview of the functions in the ProfoundData package
-#' @description The ProfoundData R package provides functions to explore, visualize and get data from the PROFOUND database.  The development of the PROFOUND database and the ProfoundData R package was faciliated by COST Action FP1304 PROFOUND.
+#' @description The ProfoundData R package provides functions to explore, visualize and get data from the PROFOUND database.  The development of the PROFOUND database and the ProfoundData R package was facilitated by COST Action FP1304 PROFOUND.
 #'
-#' A brief description of the PROFOUND database is avalaible in the vignette 'PROFOUNDdatabase' (
+#' A brief description of the PROFOUND database is available in the vignette 'PROFOUNDdatabase' (
 #' you can open it by running this command: \code{vignette('PROFOUNDdatabase')}).
 #'
 #' Note: before you can use the package, you need to download the database via \code{\link{downloadDatabase}} and
@@ -46,7 +43,7 @@
 #'   \item \code{\link{plotData}} To plot data
 #' }
 #'
-#' @section IV. Utilities: Miscellanous
+#' @section IV. Utilities: Miscellaneous
 #' \itemize{
 #'  \item \code{\link{downloadDatabase}} To download the database
 #'  \item \code{\link{setDB}} To set the connection to the database
@@ -56,14 +53,12 @@
 #'   \item \code{\link{writeSim2netCDF}} To write netCDF-files
 #' }
 #'
-#' @author Except where indicated otherwise, the functions in this package were written by Ramiro Silveyra Gonzalez, Christopher Reyer, Florian Hartig and Mahnken. Ramiro Silveyra Gonzalez was the main developer of the package. Florian Hartig is currently the maintainer. 
+#' @author Except where indicated otherwise, the functions in this package were written by Ramiro Silveyra Gonzalez, Christopher Reyer, Florian Hartig and Mats Mahnken. Ramiro Silveyra Gonzalez was the main developer of the package. Florian Hartig is currently the maintainer. 
 #' @keywords package
 #' @keywords Profound DB
 #' @import methods sqldf RSQLite DBI stats utils graphics RNetCDF settings
+"_PACKAGE"
 
 globalVariables(c("table_id", "DateSubset"))
-
-
-NULL
 
 # here is good place for imports

@@ -27,7 +27,7 @@
 #' ATMOSPHERICHEATCONDUCTION, SOILTS, FLUX, METEOROLOGICAL, and CLIMATE LOCAL. Please
 #' check the metadata of each dataset before using this parameter.
 #' @note To report errors in the package or the data, please use the issue tracker
-#' in the GitHub repository of ProfoundData \url{https://github.com/COST-FP1304-PROFOUND/ProfoundData}
+#' in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 #' @export
 #' @example /inst/examples/getDataHelp.R
 getData <- function(dataset, site = NULL, location = NULL, forcingDataset = NULL,
