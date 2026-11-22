@@ -28,11 +28,12 @@ test_that("writeSim2netCDF() keeps decimal latitudes and reports failures", {
 })
 
 test_that("getDatasets(), queryDB() and summarizeData(by = 'day') with the database", {
-  skip_if_not(file.exists(Sys.getenv("PROFOUND_DB")))
-  setDB(Sys.getenv("PROFOUND_DB"))
+  skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
+  skip_on_cran()
+  setDB(db_name = databaseLocation)
   expect_false(any(grepl("_[0-9]|OVERVIEW", getDatasets())))
   expect_error(suppressMessages(queryDB("SELECT * FROM NOTATABLE")),
-               "Error when querying: SELECT * FROM NOTATABLE", fixed = TRUE)
+               "Error when querying: SELECT * FROM NOTATABLE (no such table", fixed = TRUE)
   x <- suppressMessages(summarizeData(dataset = "FLUX", site = "soro", by = "day"))
   expect_false(anyNA(x$date))
 })

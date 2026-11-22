@@ -16,11 +16,11 @@ queryDB <- function(queryItem) {
   on.exit(RSQLite::dbDisconnect(conn))
   # build query
   # send the query
-  queried <- try(RSQLite::dbGetQuery(conn, queryItem))
+  queried <- try(RSQLite::dbGetQuery(conn, queryItem), silent = TRUE)
   result <- NULL
   if ('try-error' %in% class(queried)) {
     #result[[item]] <- dbGetException(conn) # do something about this
-    stop(paste("Error when querying:", queryItem))
+    stop(paste0("Error when querying: ", queryItem, " (", conditionMessage(attr(queried, "condition")), ")"))
   }else if (length(queried[,1]) < 1){
     stop(paste("Error when querying:", queryItem))
   }else{
