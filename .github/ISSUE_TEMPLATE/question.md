@@ -7,7 +7,7 @@ about: Ask how to use ProfoundData or how to interpret the data
 Before submitting, please:
 
 - search existing issues, as many questions have been answered before
-- check the vignette, the package documentation and the database documentation (https://doi.org/10.5880/PIK.2019.008)
+- check the vignette, the package documentation and the database documentation (https://doi.org/10.5880/PIK.2020.006)
 - choose a short plain-text title naming the function, dataset or area and the question, e.g., "getData(): how to combine climate and flux data?"
 -->
 

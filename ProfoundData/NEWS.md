@@ -12,6 +12,7 @@ Minor changes
 - downloadDatabase() asks before downloading into the working directory (otherwise needs location), skips an existing database (new argument overwrite) and deletes the zip file (#45)
 - reportDB() writes to tempdir() by default, returns the path of the report and needs the package pander (#45)
 - requires R >= 3.5.0 (#45)
+- vignettes rebuilt with database version 0.3: published data paper cited, outdated links updated (also those printed from the database tables); their sources in data-raw/ read the database path from PROFOUND_DB (#47)
 
 Bugfixes 
 

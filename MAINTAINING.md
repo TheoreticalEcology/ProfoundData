@@ -22,4 +22,4 @@ This page is for the ProfoundData team (maintainers and collaborators with write
 
 ## Database releases
 
-The database is hosted at PIK ([doi:10.5880/PIK.2019.008](https://doi.org/10.5880/PIK.2019.008)) and built with the scripts in `PROFOUND database/`; release notes go into `PROFOUND database/readme.md`. A new database version also requires the package to point to it.
+The database is hosted at PIK ([doi:10.5880/PIK.2020.006](https://doi.org/10.5880/PIK.2020.006)) and built with the scripts in `PROFOUND database/`; release notes go into `PROFOUND database/readme.md`. A new database version also requires the package to point to it.
