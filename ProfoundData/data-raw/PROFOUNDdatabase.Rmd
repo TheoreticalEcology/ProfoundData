@@ -16,6 +16,16 @@ vignette: >
 
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(fig.width=10, fig.height=10, warning=FALSE, cache = F)
+# fixes #47 (outdated links in the database tables are replaced in the vignette output)
+newLinks <- c("http://www.ceip.at/webdab_emepdatabase/reported_emissiondata/" = "https://www.ceip.at/webdab-emission-database/reported-emissiondata",
+              "http://www.ceip.at/webdab_emepdatabase/emissions_emepmodels/" = "https://www.ceip.at/webdab-emission-database/emissions-as-used-in-emep-models",
+              "http://www.ceip.at/status_reporting/2014_submissions/" = "https://www.ceip.at/status-of-reporting-and-review-results",
+              "https://fluxnet.fluxdata.org" = "https://fluxnet.org",
+              "https://lpdaac.usgs.gov/" = "https://www.earthdata.nasa.gov/centers/lp-daac")
+knitr::knit_hooks$set(document = function(x) {
+  for (old in names(newLinks)) x <- gsub(old, newLinks[[old]], x, fixed = TRUE)
+  x
+})
 ```
 
 
@@ -69,7 +79,7 @@ set.seed(1)
 
 The PROFOUND database (PROFOUND DB) brings together data from a wide range of data sources to evaluate vegetation models and simulate climate impacts at the forest stand scale. It includes 9 forest sites across Europe, and provides for them a site description as well as soil, climate, CO2, Nitrogen deposition, tree-level, forest stand-level and remote sensing data. Moreover, for a subset of 5 sites, also time series of carbon fluxes, energy balances and soil water are available. 
 
-For more details, see the [ProfoundData website](http://doi.org/10.5880/PIK.2020.006), as well as Reyer et al, The PROFOUND database for evaluating vegetation models and simulating climate impacts on forests, Earth Syst. Sci. Data Discuss., [https://doi.org/10.5194/essd-2019-220](https://doi.org/10.5194/essd-2019-220), in review, 2019.
+For more details, see the [ProfoundData website](https://doi.org/10.5880/PIK.2020.006), as well as Reyer et al. (2020), The PROFOUND Database for evaluating vegetation models and simulating climate impacts on European forests, Earth Syst. Sci. Data, 12, 1295-1320, [https://doi.org/10.5194/essd-12-1295-2020](https://doi.org/10.5194/essd-12-1295-2020).
 
 
 # Data Policy
@@ -81,7 +91,7 @@ The PROFOUND Database (DB) is available under the Creative Commons Attribution-N
 
 ```{r, echo=F, warning = F, message=F}
 library(ProfoundData)
-myDB <- path.expand("/Users/florian/temp/ProfoundData.sqlite")
+myDB <- Sys.getenv("PROFOUND_DB", "ProfoundData.sqlite") # path to your local copy of the database
 setDB(myDB)
 
 description <- getData("SITEDESCRIPTION")
@@ -94,7 +104,9 @@ rownames(df) <- NULL
 ```{r, echo=F, warning = F, message=F}
 pander(df, adding = 0, missing = '**--**', round = 3,
        use.hyphening = TRUE, split.cells = 3, caption = tableCaption("Additional data policy statements specific to the individual datasets included in the PROFOUND database."))
-``` 
+```
+
+Note: links in the tables of this vignette that no longer exist or have moved (www.ceip.at, fluxnet.fluxdata.org, lpdaac.usgs.gov) were replaced by their current addresses. The tables in the database still contain the old addresses.
 
 
 # Database structure

@@ -5,7 +5,7 @@ Contributions to ProfoundData are welcome! This document describes how to contri
 ## What this repository contains
 
 - `ProfoundData/`: the R package that downloads and explores the PROFOUND database.
-- `PROFOUND database/`: the scripts that were used to build, test and export the database (see the [readme](PROFOUND%20database/readme.md) there). The database itself is hosted by the Potsdam Institute for Climate Impact Research ([doi:10.5880/PIK.2019.008](https://doi.org/10.5880/PIK.2019.008)).
+- `PROFOUND database/`: the scripts that were used to build, test and export the database (see the [readme](PROFOUND%20database/readme.md) there). The database itself is hosted by the Potsdam Institute for Climate Impact Research ([doi:10.5880/PIK.2020.006](https://doi.org/10.5880/PIK.2020.006)).
 
 Please say in your issue whether the problem concerns the **package** (functions, documentation, installation) or the **database contents** (e.g., a wrong value, a missing site or variable). Both are reported in the same issue tracker; for database problems, name the dataset, table, site and variable, and the database version.
 

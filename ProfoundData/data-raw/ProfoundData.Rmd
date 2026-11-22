@@ -53,7 +53,7 @@ citation("ProfoundData")
 
 ## Database download 
 
-The Profound database is provided in SQLite and can be downloaded either by hand at [http://doi.org/10.5880/PIK.2020.006](http://doi.org/10.5880/PIK.2020.006) or via 
+The Profound database is provided in SQLite and can be downloaded either by hand at [https://doi.org/10.5880/PIK.2020.006](https://doi.org/10.5880/PIK.2020.006) or via 
 
 ```{r, eval = F}
 sqlfile = downloadDatabase()
@@ -66,7 +66,7 @@ Per default, the database is downloaded into the current working directory, but 
 For using a locally stored database with the ProfoundData package, the first step is to call *setDB*. The function requires a **valid absolute path to the PROFOUND database**. 
 
 ```{r, eval = T}
-myDB <- path.expand("/Users/florian/temp/ProfoundData.sqlite")
+myDB <- Sys.getenv("PROFOUND_DB", "ProfoundData.sqlite") # path to your local copy of the database
 setDB(myDB)
 ```
 
@@ -539,5 +539,5 @@ Please note that creating the report might take several minutes.
 
 # Using the database via sql 
 
-To access the database you can use an SQLite database explorer such as [SQLiteStudio](http://sqlitestudio.pl/). Such software allows to visualize and download data through an interface, as well as writing SQL statements. Further information on SQLite characteristics can be found on the [SQLite website](https://www.sqlite.org/lang.html). Besides, there are plenty of resources about using SQL like [this one](http://www.w3schools.com/sql/default.asp) 
+To access the database you can use an SQLite database explorer such as [SQLiteStudio](https://letos.org/) (now called Letos). Such software allows to visualize and download data through an interface, as well as writing SQL statements. Further information on SQLite characteristics can be found on the [SQLite website](https://www.sqlite.org/lang.html). Besides, there are plenty of resources about using SQL like [this one](https://www.w3schools.com/sql/default.asp) 
 

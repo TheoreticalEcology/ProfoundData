@@ -9,6 +9,7 @@ Minor changes
 - links in DESCRIPTION and help pages point to the TheoreticalEcology repository and website (#44)
 - tcltk and BayesianTools are no longer dependencies (#44)
 - fixes for CRAN check NOTEs (LazyData, help links) and return values added to help pages (#44)
+- vignettes rebuilt with database version 0.3: published data paper cited, outdated links updated (also those printed from the database tables); their sources in data-raw/ read the database path from PROFOUND_DB (#47)
 
 Bugfixes 
 

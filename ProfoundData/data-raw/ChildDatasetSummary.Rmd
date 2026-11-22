@@ -103,7 +103,7 @@ pander(df, adding = 0, missing = '**--**', round = 3,    use.hyphening = TRUE, s
 
 ## Dataset CLIMATE_LOCAL 
 
-The CLIMATE LOCAL data refers to climate data measured at each forest site or meteorological stations close to the site of the forest site. For those forest sites for which the data has been derived from half-hourly [FLUXNET2015](http://fluxnet.fluxdata.org/) data, we also provide the original half-hourly data in the table METEOROLOGICAL.
+The CLIMATE LOCAL data refers to climate data measured at each forest site or meteorological stations close to the site of the forest site. For those forest sites for which the data has been derived from half-hourly [FLUXNET2015](https://fluxnet.org/) data, we also provide the original half-hourly data in the table METEOROLOGICAL.
 
 When relative humidity was not part of the original data, we calculated it from the vapour pressure deficit and the daily temperatures as
 
@@ -250,7 +250,7 @@ pander(df, adding = 0, missing = '**--**', round = 3,    use.hyphening = TRUE, s
 
 ## Dataset ATMOSPHERICHEATCONDUCTION
 
-The ATMOSPHERICHEATCONDUCTION data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](http://fluxnet.fluxdata.org/) data.
+The ATMOSPHERICHEATCONDUCTION data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](https://fluxnet.org/) data.
 
 ```{r, echo=F, warning = F, message=F}
 df <- browseData("METADATA_ATMOSPHERICHEATCONDUCTION")
@@ -265,7 +265,7 @@ pander(df, adding = 0, missing = '**--**', round = 3,    use.hyphening = TRUE, s
 
 ## Dataset FLUX
 
-The FLUX data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](http://fluxnet.fluxdata.org/) data.
+The FLUX data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](https://fluxnet.org/) data.
 
 ```{r, echo=F, warning = F, message=F}
 df <- browseData("METADATA_FLUX")
@@ -279,7 +279,7 @@ pander(df, adding = 0, missing = '**--**', round = 3, use.hyphening = TRUE, spli
 
 ## Dataset METEOROLOGICAL
 
-The METEOROLOGICAL data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](http://fluxnet.fluxdata.org/) data.
+The METEOROLOGICAL data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](https://fluxnet.org/) data.
 
 ```{r, echo=F, warning = F, message=F}
 df <- browseData("METADATA_METEOROLOGICAL")
@@ -301,7 +301,7 @@ df <- df[, !colnames(df) %in% c("source")]
 rownames(df) <- NULL
 ``` 
 
-The soil time series data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](http://fluxnet.fluxdata.org/) data.
+The soil time series data contains half-hourly measurements of the variables listed in the table below and was obtained from  [FLUXNET2015](https://fluxnet.org/) data.
 
  
 ```{r, echo=F, warning = F, message=F}
@@ -323,7 +323,7 @@ df <- df[, !colnames(df) %in% c("comments")]
 rownames(df) <- NULL
 ``` 
 
-The original MODIS time series are available at the [NASA Land Processes Distributed Archive Center (LP DAAC)](https://lpdaac.usgs.gov/). The data were downloaded from the [Land Product Subset web service](https://daac.ornl.gov/MODIS/) of the [Oak Ridge National Laboratory Distributed Active Archive Center (ORNL DAAC)](https://daac.ornl.gov/). Five different datasets are included in the database:
+The original MODIS time series are available at the [NASA Land Processes Distributed Archive Center (LP DAAC)](https://www.earthdata.nasa.gov/centers/lp-daac). The data were downloaded from the [Land Product Subset web service](https://daac.ornl.gov/MODIS/) of the [Oak Ridge National Laboratory Distributed Active Archive Center (ORNL DAAC)](https://daac.ornl.gov/). Five different datasets are included in the database:
 
 
 `r paste(modisMod, collapse='\n') `
