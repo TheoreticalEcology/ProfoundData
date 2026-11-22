@@ -46,7 +46,7 @@ writeSim2netCDF<-function(df
                           , ss="co2const"
                           , region="Kroof"
                           , start='1980'
-                          , folder="ISI-MIP"){
+                          , folder){
   
   # cheque if data frame
   if ( !class(df)[1] %in% 'data.frame') {
@@ -318,7 +318,7 @@ write.netCDF<-function(df
                        ,ses ="nat"
                        ,ss="co2const"
                        ,region="Kroof"
-                       ,folder="ISI-MIP"){
+                       ,folder){
   # cheques
   if (colnames(df)[1] != "lon" || colnames(df)[2] != "lat" || colnames(df)[3] != "time") {
     message('Error: First 3 columns must be named "lon", "lat", "time".')

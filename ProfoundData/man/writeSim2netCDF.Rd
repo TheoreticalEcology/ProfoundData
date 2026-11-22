@@ -17,7 +17,7 @@ writeSim2netCDF(
   ss = "co2const",
   region = "Kroof",
   start = "1980",
-  folder = "ISI-MIP"
+  folder
 )
 }
 \arguments{

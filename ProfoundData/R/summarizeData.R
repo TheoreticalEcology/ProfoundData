@@ -66,9 +66,8 @@ summarizeData <- function(dataset, site, location=NULL, forcingDataset = NULL,
 
 
   message("Parsing the query")
-  tmp <- try(parseQuery(dataset=dataset, site=site, forcingDataset = forcingDataset,
-                        forcingCondition = forcingCondition,collapse = T, period = period), F)
-  if ('try-error' %in% class(tmp))    stop("Could not parse the query")
+  tmp <- parseQuery(dataset=dataset, site=site, forcingDataset = forcingDataset,
+                        forcingCondition = forcingCondition,collapse = T, period = period)
   # get Data
   if (tmp[["dataset"]] == "SITES")  stop("Can't summarize SITES")
   #message(paste("Downloading data from" , tmp[["dataset"]], "for the site", site,  sep = " "))

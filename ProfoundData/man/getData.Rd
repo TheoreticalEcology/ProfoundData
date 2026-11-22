@@ -79,17 +79,17 @@ site <- getData(dataset =  "SITES", site = "soro")
 sites <- getData(dataset =  "SITEDESCRIPTION")
 
 # Get SITEDESCRIPTION of a specific site
-site <- getData(dataset =  "SITEDESCRIPTION", site = "lebray")
+site <- getData(dataset =  "SITEDESCRIPTION", site = "le_bray")
 
 # Get any dataset for a site
 data <- getData(dataset =  "CLIMATE_LOCAL", site = "soro")
 
-# Get ISIMIP datasets as a list with data frames
+# Get ISIMIP datasets as a single data frame
 data <- getData(dataset ="CLIMATE_ISIMIP2A", site = "soro", collapse = TRUE)
 data <- getData(dataset ="CLIMATE_ISIMIP2B", site = "soro", collapse = TRUE)
 data <- getData(dataset ="NDEPOSITION_ISIMIP2B", site = "soro", collapse = TRUE)
 
-# Get ISIMIP datasets as an unique data frame
+# Get ISIMIP datasets as a list with data frames
 data <- getData(dataset ="CLIMATE_ISIMIP2A", site = "soro", collapse = FALSE)
 data <- getData(dataset ="CLIMATE_ISIMIP2B", site = "soro", collapse = FALSE)
 data <- getData(dataset ="NDEPOSITION_ISIMIP2B", site = "soro", collapse = FALSE)
