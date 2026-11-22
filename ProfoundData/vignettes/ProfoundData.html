@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ramiro Silveyra Gonzalez, Christopher Reyer, Mats Mahnken, Florian Hartig" />
 
-<meta name="date" content="2026-11-21" />
+<meta name="date" content="2026-11-22" />
 
 <title>The ProfoundData R-package</title>
 
@@ -352,7 +352,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">The ProfoundData R-package</h1>
 <h4 class="author">Ramiro Silveyra Gonzalez, Christopher Reyer, Mats
 Mahnken, Florian Hartig</h4>
-<h4 class="date">2026-11-21</h4>
+<h4 class="date">2026-11-22</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>This vignette provides an overview of the Profound data R package.
@@ -463,11 +463,13 @@ NetCDF files.</p>
 <p>The Profound database is provided in SQLite and can be downloaded
 either by hand at <a href="https://doi.org/10.5880/PIK.2020.006">https://doi.org/10.5880/PIK.2020.006</a>
 or via</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sqlfile <span class="ot">=</span> <span class="fu">downloadDatabase</span>()</span></code></pre></div>
-<p>Per default, the database is downloaded into the current working
-directory, but you can specify another location in the function. The
-function returns the current database location, which can be passed on
-to the setDB function (see below).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sqlfile <span class="ot">=</span> <span class="fu">downloadDatabase</span>(<span class="at">location =</span> <span class="st">&quot;path/to/folder&quot;</span>)</span></code></pre></div>
+<p>The argument location gives an existing folder for the database. If
+it is not given, the function asks in an interactive session whether to
+use the current working directory, and stops otherwise. If the database
+already exists in that folder, it is not downloaded again (unless
+overwrite = TRUE). The function returns the path to the database file,
+which can be passed on to the setDB function (see below).</p>
 </div>
 <div id="database-connection" class="section level2">
 <h2>Database connection</h2>
@@ -6168,9 +6170,10 @@ data in the PROFOUND database. The summary is created with a rmarkdown
 document, which is rendered and saved as a html document. The report
 provides an exhaustive description and visualization of the PROFOUND
 database.</p>
-<p>The function requires a path where to save the html document. If no
-path is specified, the working directory will be used as output
-directory.</p>
+<p>The argument outDir gives an existing folder in which the html
+document is saved; by default, this is a temporary folder (tempdir()).
+The function returns the path to the report, and opens it in interactive
+sessions.</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="fu">reportDB</span>(<span class="at">outDir =</span> <span class="fu">tempdir</span>())</span></code></pre></div>
 <p>Please note that creating the report might take several minutes.</p>
 </div>

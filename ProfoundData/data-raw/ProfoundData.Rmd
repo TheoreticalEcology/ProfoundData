@@ -56,10 +56,10 @@ citation("ProfoundData")
 The Profound database is provided in SQLite and can be downloaded either by hand at [https://doi.org/10.5880/PIK.2020.006](https://doi.org/10.5880/PIK.2020.006) or via 
 
 ```{r, eval = F}
-sqlfile = downloadDatabase()
+sqlfile = downloadDatabase(location = "path/to/folder")
 ```
 
-Per default, the database is downloaded into the current working directory, but you can specify another location in the function. The function returns the current database location, which can be passed on to the setDB function (see below).
+The argument location gives an existing folder for the database. If it is not given, the function asks in an interactive session whether to use the current working directory, and stops otherwise. If the database already exists in that folder, it is not downloaded again (unless overwrite = TRUE). The function returns the path to the database file, which can be passed on to the setDB function (see below).
 
 ## Database connection
 
@@ -529,7 +529,7 @@ Hint: Check the last section for further information about SQL syntax's.
 
 This function permits creating a site-by-site report of all avalaible data in the PROFOUND database. The summary is created with a rmarkdown document, which is rendered and saved as a html document. The report provides an exhaustive description and visualization of the PROFOUND database. 
 
-The function requires a path where to save the html document. If no path is specified, the working directory will be used as output directory.
+The argument outDir gives an existing folder in which the html document is saved; by default, this is a temporary folder (tempdir()). The function returns the path to the report, and opens it in interactive sessions.
 
 ```{r, eval=F, echo=T, results="hide", message= F, warning=F}
 reportDB(outDir = tempdir())
