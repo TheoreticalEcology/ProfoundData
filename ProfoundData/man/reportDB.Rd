@@ -4,15 +4,15 @@
 \alias{reportDB}
 \title{A function report data}
 \usage{
-reportDB(outDir = NULL)
+reportDB(outDir = tempdir())
 }
 \arguments{
-\item{outDir}{a character string indicating the output directory in which the
-html file will be saved. If no value is provided, the working directory will be
-used as output directory.}
+\item{outDir}{a character string indicating an existing output directory in which the
+html file will be saved. Default is the temporary directory of the R session.}
 }
 \value{
-a html file with the database report
+the path to the html file with the database report (invisibly). In interactive
+sessions, the report is also opened in the browser.
 }
 \description{
 This functions creates a site-by-site report of all available data
@@ -20,7 +20,8 @@ in the PROFOUND database. The summary is created with a rmarkdown document, whic
 is rendered and saved as a html document.
 }
 \details{
-Please note that creating the report it might take several minutes.
+Please note that creating the report might take several minutes. The report needs
+the packages rmarkdown, knitr and pander, and pandoc (see \code{\link[rmarkdown]{pandoc_available}}).
 }
 \note{
 To report errors in the package or the data, please use the issue tracker
@@ -31,6 +32,7 @@ in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcol
 # when run without a registered DB, you will get a file query (depending on OS)
 
 \dontrun{
-reportDB(outDir = tempdir())
+# writes the report to tempdir() and returns its path
+report <- reportDB()
 }
 }

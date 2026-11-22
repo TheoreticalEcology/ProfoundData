@@ -2,5 +2,6 @@
 # when run without a registered DB, you will get a file query (depending on OS)
 
 \dontrun{
-reportDB(outDir = tempdir())
+# writes the report to tempdir() and returns its path
+report <- reportDB()
 }
