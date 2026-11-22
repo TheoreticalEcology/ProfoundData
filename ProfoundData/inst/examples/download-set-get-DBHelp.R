@@ -1,7 +1,7 @@
 \dontrun{
   
-# For downloading the data, use 
-dbfile <- downloadDatabase(location = tempdir())
+# For downloading the data (2.8 GB) into an existing folder, use
+dbfile <- downloadDatabase(location = "path/to/folder")
 
 # Set the connection using the setDB function
 setDB(dbfile)
