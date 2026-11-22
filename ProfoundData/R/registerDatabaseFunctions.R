@@ -58,7 +58,7 @@ dbConnection <- settings::options_manager(dbname=NA, driver=RSQLite::SQLite())
 #' @details This is a convenience function to download the PROFOUND database. The download is a zip file of 2.8 GB,
 #' which contains the database file ProfoundData.sqlite of 8.3 GB; about 11 GB of free disk space are needed while unzipping.
 #' The zip file is deleted after the database has been unzipped and checked for completeness (file size). If the download or unzipping fails, please
-#' download the database by hand from \url{https://doi.org/10.5880/PIK.2020.006}. The download may take long; it is
+#' download the database by hand (doi:10.5880/PIK.2020.006). The download may take long; it is
 #' allowed to take up to 3 hours, or longer if \code{options("timeout")} is set to a larger value.
 #' @param location an existing directory in which the database is stored. If not provided, the function asks in an
 #' interactive session whether to use the current working directory, and stops otherwise.
