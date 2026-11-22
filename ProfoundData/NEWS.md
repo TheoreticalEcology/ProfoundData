@@ -9,10 +9,15 @@ Minor changes
 - links in DESCRIPTION and help pages point to the TheoreticalEcology repository and website (#44)
 - tcltk and BayesianTools are no longer dependencies (#44)
 - fixes for CRAN check NOTEs (LazyData, help links) and return values added to help pages (#44)
+- downloadDatabase() asks before downloading into the working directory (otherwise needs location), skips an existing database (new argument overwrite) and deletes the zip file (#45)
+- reportDB() writes to tempdir() by default, returns the path of the report and needs the package pander (#45)
+- requires R >= 3.5.0 (#45)
 
 Bugfixes 
 
 - corrected flux unit conversion error in summarizeData() (see commit 3dfa079142654780a9bb74da8cca3754bf0c4f26)
+- downloadDatabase(): wrong unzip path, 60 s timeout and dependence on an external unzip program (#45)
+- reportDB() wrote intermediate files into the package library (#45)
 - summarizeData(dataset = "FLUX", by = "day") returned missing or wrong dates (day and month swapped) (#46)
 - writeSim2netCDF() stored the latitude as integer, labelled piab and hawo with wrong species names, wrote the attribute "unit" instead of "units", returned TRUE when no file was written, and warned that the argument large of RNetCDF::create.nc() is deprecated; the example now writes its files (#46)
 - browseData(dataset = "DATASETS") also listed the site-specific tables (#46)

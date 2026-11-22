@@ -51,9 +51,13 @@ value: "co2const".}
 
 \item{region}{the region or site of the simulation}
 
-\item{start}{the start year of the simulation. Default value: 1980.}
+\item{start}{not used; the start and end years are taken from the column time.}
 
 \item{folder}{The folder in which all netCDF files will be written}
+}
+\value{
+TRUE if a file was written for every output variable, otherwise FALSE
+ (with a message explaining the problem).
 }
 \description{
 This function transforms simulation results into netCDF files following the ISIMIP2 protocol
@@ -66,8 +70,8 @@ The function transforms your simulation output data frame into several netCDF
 }
 \examples{
 # Produce sample data 
-df <- data.frame(lat = rep(20, 10),
-                 lon = rep(30, 10),
+df <- data.frame(lon = rep(30, 10),
+                 lat = rep(20, 10),
                  time = seq(1920, 2010, 10),
                  dbh_total = c(10:19),
                  nee_total = rnorm(10, -0.5, 0.25),
@@ -86,7 +90,6 @@ writeSim2netCDF(df = df,
                 ses = "nat",
                 ss = "co2const",
                 region = "Kroof",
-                start = '1920',
                 folder = tempdir())
 }
 \author{

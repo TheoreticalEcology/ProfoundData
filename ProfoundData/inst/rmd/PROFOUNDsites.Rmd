@@ -56,7 +56,6 @@ subsectionNumbering <- local({
 })
 
 library(knitr)
-library(plyr)
 
 set.seed(1)
 

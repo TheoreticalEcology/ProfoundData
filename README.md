@@ -39,7 +39,10 @@ citation("ProfoundData")
 
 ## Downloading the database from R
 
+The database is a 2.8 GB download (8.3 GB unzipped). Store it in an existing folder and register it with setDB():
+
 ```{r}
-downloadDatabase()
+dbfile <- downloadDatabase(location = "path/to/folder")
+setDB(dbfile)
 ```
 
