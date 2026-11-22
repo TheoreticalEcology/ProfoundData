@@ -323,7 +323,7 @@ df <- df[, !colnames(df) %in% c("comments")]
 rownames(df) <- NULL
 ``` 
 
-The original MODIS time series are available at the [NASA Land Processes Distributed Archive Center (LP DAAC)](https://www.earthdata.nasa.gov/centers/lp-daac). The data were downloaded from the [Land Product Subset web service](https://daac.ornl.gov/MODIS/) of the [Oak Ridge National Laboratory Distributed Active Archive Center (ORNL DAAC)](https://daac.ornl.gov/). Five different datasets are included in the database:
+The original MODIS time series are available at the [NASA Land Processes Distributed Archive Center (LP DAAC)](https://www.earthdata.nasa.gov/centers/lp-daac). The data were downloaded from the [Land Product Subset web service](https://www.earthdata.nasa.gov/data/tools/tesvis) (now TESViS) of the [Oak Ridge National Laboratory Distributed Active Archive Center (ORNL DAAC)](https://www.earthdata.nasa.gov/centers/ornl-daac). Five different datasets are included in the database:
 
 
 `r paste(modisMod, collapse='\n') `
