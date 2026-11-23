@@ -53,7 +53,8 @@ value: "co2const".}
 
 \item{start}{not used; the start and end years are taken from the column time.}
 
-\item{folder}{The folder in which all netCDF files will be written}
+\item{folder}{The folder in which all netCDF files will be written. Required (no
+default), e.g. \code{tempdir()}.}
 }
 \value{
 TRUE if a file was written for every output variable, otherwise FALSE

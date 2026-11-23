@@ -3,6 +3,7 @@
 test_that("writeSim2netCDF() has no default folder", {
   df <- data.frame(lon = 30, lat = 20, time = 2001:2003, dbh_total = 1:3)
   expect_error(writeSim2netCDF(df), "folder")
+  expect_error(writeSim2netCDF(data.frame(lon = 30, lat = 20, time = 1:2, foo = 1:2)), "folder")
 })
 
 test_that("plotPROFOUND.TREE() and plotPROFOUND.STAND() restore par() with several species", {
