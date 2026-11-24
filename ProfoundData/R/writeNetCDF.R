@@ -21,8 +21,9 @@
 #' default), e.g. \code{tempdir()}.
 #' @param contact Your mail address
 #' @param institution Your institution
-#' @param comment1 Optional comment regarding your simulation
-#' @param comment2 Optional comment regarding your simulation
+#' @param comment1 Optional comment regarding your simulation: one string for all
+#' files or one per output variable
+#' @param comment2 Optional comment regarding your simulation, as comment1
 #'
 #' @details
 #' The function transforms your simulation output data frame into several netCDF
@@ -51,18 +52,33 @@ writeSim2netCDF<-function(df
   force(folder) # fixes #51 (error without folder, before any other check)
 
   # cheque if data frame
-  if ( !class(df)[1] %in% 'data.frame') {
+  if (!inherits(df, "data.frame")) {
     message( paste('Error: input data must be a data.frame, not a ', class(df)[1]))
     return(FALSE)
   }
-  
-  if(length(comment1)==1)
+  nvar <- ncol(df) - 3
+  if (nvar < 1) {
+    message("Error: no output variables after the columns lon, lat and time")
+    return(FALSE)
+  }
+  # one comment per output variable, NA written as "" (fixes #52)
+  perVariable <- function(x) {
+    if (length(x) == ncol(df)) x <- x[-(1:3)] # old form: one entry per column
+    if (!length(x) %in% c(0, 1, nvar)) return(NULL)
+    x <- rep_len(as.character(x), nvar)
+    x[is.na(x)] <- ""
+    x
+  }
+  comment1 <- perVariable(comment1)
+  comment2 <- perVariable(comment2)
+  if (is.null(comment1) || is.null(comment2)) {
+    message("Error: comment1 and comment2 must have length 1 or one entry per output variable")
+    return(FALSE)
+  }
 
-    if(is.na(comment1))comment1<-rep("",length(colnames(df)))
-    if(length(comment2)==1)
-      if(is.na(comment2))comment2<-rep("",length(colnames(df)))
-
-      for( i in 4:length(colnames(df))){
+  # check all column names before writing any file
+  units <- variables_long <- character(nvar)
+      for( i in 4:ncol(df)){
         variable<-colnames(df)[i]
         code<-strsplit(variable,"_")[[1]]
         # swith code part 1
@@ -116,10 +132,10 @@ writeSim2netCDF<-function(df
                   variable_long<-"Carbon Mass in Litter Pool"
                 },
                 cvegag = {
-                  unit <- "kg C m2"
+                  unit <- "kg m-2"
                   variable_long <- "Carbon Mass in aboveground vegetation biomass"
                 },cvegbg = {
-                  unit <- "kg C m2"
+                  unit <- "kg m-2"
                   variable_long <- "Carbon Mass in belowground vegetation biomass"
                 },
                 csoil={
@@ -275,8 +291,8 @@ writeSim2netCDF<-function(df
         }
         # switch code part 3
         if (length(code)>2){
-          class<-as.numeric(strsplit(code[3],"c")[[1]][2])
-          if(class >140 || class <0 )           {
+          class<-suppressWarnings(as.numeric(strsplit(code[3],"c")[[1]][2]))
+          if(is.na(class) || class >140 || class <0 )           {
             message(paste("error:colname",variable,"does not correspond to the ISI-MIP convention of the ISI.MIP simulation protocol 2.1"))
             return(FALSE)
           }
@@ -284,13 +300,18 @@ writeSim2netCDF<-function(df
 
         }
 
-        # write netCDF file
+        units[i - 3] <- unit
+        variables_long[i - 3] <- variable_long
+      }
+
+      # write netCDF files
+      for (j in seq_len(nvar)) {
         written <- write.netCDF(df
-                     ,variable
-                     ,variable_long=variable_long
-                     ,unit= unit
-                     ,comment1=comment1[i]
-                     ,comment2=comment2[i]
+                     ,colnames(df)[j + 3]
+                     ,variable_long=variables_long[j]
+                     ,unit= units[j]
+                     ,comment1=comment1[j]
+                     ,comment2=comment2[j]
                      ,institution=institution
                      ,contact= contact
                      ,modelname=modelname
@@ -333,8 +354,8 @@ write.netCDF<-function(df
 
   # filenameconstructtion
   timestep="annual"
-  start<-df$time[1]
-  end<-df$time[nrow(df)]
+  start<-min(df$time)
+  end<-max(df$time)
   filename<-paste(modelname,GCM,RCP,ses,ss,gsub("_", "-", variable),region,timestep,start,end,sep="_")
   filename<-paste0(folder,"/",filename,".nc")
   title<-paste(modelname,GCM,RCP,ses,ss)
@@ -343,6 +364,7 @@ write.netCDF<-function(df
 
   #create file
   ncout <- RNetCDF::create.nc(filename)
+  on.exit(RNetCDF::close.nc(ncout))
 
   #definitions
   RNetCDF::dim.def.nc(ncout, "lon", 1)
@@ -380,10 +402,7 @@ write.netCDF<-function(df
   RNetCDF::var.put.nc(ncout,"lon",df$lon[1],1,1)
   RNetCDF::var.put.nc(ncout,"lat",df$lat[1],1,1)
   RNetCDF::var.put.nc(ncout,"time",df$time-1901,1,length(df$time))
-  collumn<-which(colnames(df)==variable)
-  RNetCDF::var.put.nc(ncout,variable,df[,collumn],c(1,1,1),c(1,1,nrow(df)))
-
-  RNetCDF::close.nc(ncout)
+  RNetCDF::var.put.nc(ncout,variable,df[[variable]],c(1,1,1),c(1,1,nrow(df)))
 }
 
 
