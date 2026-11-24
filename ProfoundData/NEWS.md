@@ -13,11 +13,15 @@ Minor changes
 - reportDB() writes to tempdir() by default, returns the path of the report and needs the package pander (#45)
 - requires R >= 3.5.0 (#45)
 - vignettes rebuilt with database version 0.3: published data paper cited, outdated links updated (also those printed from the database tables); their sources in data-raw/ read the database path from PROFOUND_DB (#47)
+- writeSim2netCDF() has no default for folder (was "ISI-MIP" in the working directory); calls without folder now fail (#51)
+- getData(), plotData() and summarizeData() report the reason when a query cannot be parsed (e.g. an invalid site) instead of "Could not parse the query" (#51)
 
 Bugfixes 
 
 - corrected flux unit conversion error in summarizeData() (see commit 3dfa079142654780a9bb74da8cca3754bf0c4f26)
 - downloadDatabase(): wrong unzip path, 60 s timeout and dependence on an external unzip program (#45)
+- plotData() restores par() for TREE and STAND with several species (#51)
+- getData() examples: site "le_bray" and the comments on collapse corrected (#51)
 - reportDB() wrote intermediate files into the package library (#45)
 - summarizeData(dataset = "FLUX", by = "day") returned missing or wrong dates (day and month swapped) (#46)
 - writeSim2netCDF() stored the latitude as integer, labelled piab and hawo with wrong species names, wrote the attribute "unit" instead of "units", returned TRUE when no file was written, and warned that the argument large of RNetCDF::create.nc() is deprecated; the example now writes its files (#46)

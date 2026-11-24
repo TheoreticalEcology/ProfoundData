@@ -47,12 +47,11 @@ plotData <- function(dataset, site, location=NULL,forcingDataset = NULL,
                             "OVERVIEW_EXTENDED")
   if(dataset %in% notSupportedDatasets) stop("Plotting is not supported")
   # parse and test the query
-  tmp <- try(parseQuery(dataset =dataset, site = site,  forcingDataset = forcingDataset,
+  tmp <- parseQuery(dataset =dataset, site = site,  forcingDataset = forcingDataset,
                         forcingCondition = forcingCondition, species = species,
                         variables = variables, period = period,
                         aggregated = aggregated, FUN = FUN, automaticPanels = automaticPanels,
-                        quality = quality , decreasing = decreasing, collapse = F), F)
-  if ('try-error' %in% class(tmp))    stop("Could not parse the query")
+                        quality = quality , decreasing = decreasing, collapse = F)
   # Fetch the query
   message(paste("Downloading data from" , dataset, "for the site", site,  sep = " "))
   tmp <- try(fetchQuery(tmp), F)

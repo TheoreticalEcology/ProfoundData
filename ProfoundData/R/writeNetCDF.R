@@ -17,7 +17,8 @@
 #' value: "co2const".
 #' @param start not used; the start and end years are taken from the column time.
 #' @param region the region or site of the simulation
-#' @param folder The folder in which all netCDF files will be written
+#' @param folder The folder in which all netCDF files will be written. Required (no
+#' default), e.g. \code{tempdir()}.
 #' @param contact Your mail address
 #' @param institution Your institution
 #' @param comment1 Optional comment regarding your simulation
@@ -46,8 +47,9 @@ writeSim2netCDF<-function(df
                           , ss="co2const"
                           , region="Kroof"
                           , start='1980'
-                          , folder="ISI-MIP"){
-  
+                          , folder){
+  force(folder) # fixes #51 (error without folder, before any other check)
+
   # cheque if data frame
   if ( !class(df)[1] %in% 'data.frame') {
     message( paste('Error: input data must be a data.frame, not a ', class(df)[1]))
@@ -318,7 +320,7 @@ write.netCDF<-function(df
                        ,ses ="nat"
                        ,ss="co2const"
                        ,region="Kroof"
-                       ,folder="ISI-MIP"){
+                       ,folder){
   # cheques
   if (colnames(df)[1] != "lon" || colnames(df)[2] != "lat" || colnames(df)[3] != "time") {
     message('Error: First 3 columns must be named "lon", "lat", "time".')

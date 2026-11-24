@@ -6,6 +6,8 @@ plotPROFOUND.TREE <-function(tmp){
   }
   if(!"species" %in% colnames(data)) stop("Missing species!", call. = FALSE)
   if(!"year" %in% colnames(data)) stop("Missing year!", call. = FALSE)
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
   spp <- unique(data$species)
   for (i in 1:length(spp)){
     dataSpp <- data[data$species == spp[i], ]
@@ -31,11 +33,9 @@ plotPROFOUND.TREE <-function(tmp){
       yearRange <- range(dataSpp$year, na.rm = T)
      # cat("There are ");cat(overviewPlots);cat(" plots")
       if(tmp[["automaticPanels"]] == T){
-        oldpar <- par(mfrow = getPanels(overviewPlots), mar=c(2,2,2,0.5))
-        on.exit(par(oldpar)) 
+        par(mfrow = getPanels(overviewPlots), mar=c(2,2,2,0.5))
       }else{
-        oldpar <- par(mfrow = c(1,1), mar=c(4,4,4,2))
-        on.exit(par(oldpar)) 
+        par(mfrow = c(1,1), mar=c(4,4,4,2))
       }
 
       # Histrogram based on year
@@ -119,16 +119,16 @@ plotPROFOUND.STAND <-function(tmp){
   if(!"year" %in% colnames(data)) stop("Missing year!", call. = FALSE)
   plotVariables <- standVariables[standVariables %in% colnames(data)]
   if(length(plotVariables) < 1) stop("There is nothing to plot!", call. = FALSE)
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
   spp <- unique(data$species)
   for (i in 1:length(spp)){
     dataSpp <- data[data$species == spp[i], ]
     yearRange <- range(dataSpp$year, na.rm = T)
     if(tmp[["automaticPanels"]] == T){
-      oldpar <- par(mfrow = getPanels(length(plotVariables)), mar=c(2,2,2,0.5))
-      on.exit(par(oldpar)) 
+      par(mfrow = getPanels(length(plotVariables)), mar=c(2,2,2,0.5))
     }else{
-      oldpar <- par(mfrow = c(1,1), mar=c(4,4,4,2))
-      on.exit(par(oldpar)) 
+      par(mfrow = c(1,1), mar=c(4,4,4,2))
     }
     for (j in 1:length(plotVariables)){
       lenghtVariable <- length(dataSpp[,plotVariables[j]][!is.na(dataSpp[,plotVariables[j]])])
