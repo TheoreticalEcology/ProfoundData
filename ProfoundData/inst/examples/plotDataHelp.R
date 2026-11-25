@@ -34,12 +34,12 @@ plotData(dataset = "FLUX", site = "soro", period = c("2011-01-01","2012-12-31"),
 # Plot aggregated data
 plotData(dataset = "CLIMATE_ISIMIP2B", site ="soro",  forcingDataset= "GFDLESM2M",
          forcingCondition="rcp2p6", variables = "tmax_degC",
-         period = c("2020-01-01", "2022-01-01"),
-         aggregate = "month", FUN =median)
+         period = c("2020-01-01", "2021-12-31"),
+         aggregated = "month", FUN =median)
 plotData(dataset = "CLIMATE_ISIMIP2B", site ="soro",  forcingDataset= "GFDLESM2M",
          forcingCondition="rcp2p6", variables = "p_mm",
-         period = c("2020-01-01", "2022-01-01"),
-         aggregate = "month", FUN =sum)
+         period = c("2020-01-01", "2021-12-31"),
+         aggregated = "month", FUN =sum)
 
 # Plot aggregated data with self-defined function. In this case, compare month
 # mean temperature of one year to mean of all period
@@ -50,7 +50,7 @@ difference <- function(x) {mean(x, na.rm = TRUE) -meanTemperature}
 
 plotData(dataset = "CLIMATE_ISIMIP2B", site ="soro",  forcingDataset= "GFDLESM2M",
          forcingCondition="rcp2p6", variables = "tmax_degC",
-         period = c("2020-01-01", "2021-01-01"),
-         aggregate = "month", FUN =difference)
+         period = c("2020-01-01", "2020-12-31"),
+         aggregated = "month", FUN =difference)
 abline(h = 0, col = "red")
 }

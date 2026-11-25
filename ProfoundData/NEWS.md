@@ -15,12 +15,16 @@ Minor changes
 - vignettes rebuilt with database version 0.3: published data paper cited, outdated links updated (also those printed from the database tables); their sources in data-raw/ read the database path from PROFOUND_DB (#47)
 - writeSim2netCDF() has no default for folder (was "ISI-MIP" in the working directory); calls without folder now fail (#51)
 - getData(), plotData() and summarizeData() report the reason when a query cannot be parsed (e.g. an invalid site) instead of "Could not parse the query" (#51)
+- plotData(aggregated = "month") and aggregated = "day" now aggregate per month of each year and per date; before, they pooled the values of each calendar month (12 values) and of each day of the month (31 values) across all years. aggregated = "date" now also works for daily and MODIS data, and invalid values give an error (#54)
+- summarizeData() gives an error for values of by that a dataset does not support (by = "total" for TREE, by = "day" except for FLUX); before, it silently returned the yearly summary (#54)
 
 Bugfixes 
 
 - corrected flux unit conversion error in summarizeData() (see commit 3dfa079142654780a9bb74da8cca3754bf0c4f26)
 - downloadDatabase(): wrong unzip path, 60 s timeout and dependence on an external unzip program (#45)
 - plotData() restores par() for TREE and STAND with several species (#51)
+- plotData() for half-hourly data (FLUX, METEOROLOGICAL, SOILTS, ATMOSPHERICHEATCONDUCTION) computed the daily mean of the last day of the period mostly from values of the first day, and warned that zoo index entries are not unique (#54)
+- plotData() for ISIMIP climate data with several forcing conditions stopped with "Missing date!" when one condition had no data in the period; it now warns and plots the other conditions (#54)
 - getData() examples: site "le_bray" and the comments on collapse corrected (#51)
 - reportDB() wrote intermediate files into the package library (#45)
 - summarizeData(dataset = "FLUX", by = "day") returned missing or wrong dates (day and month swapped) (#46)

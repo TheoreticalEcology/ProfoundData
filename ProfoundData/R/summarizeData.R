@@ -6,8 +6,9 @@
 #' @param location deprecated argument. Please use site instead.
 #' @param dataset a character string providing the name of a climatic dataset
 #' (CLIMATE_LOCAL, CLIMATE_ISIMIP, ...), TREE, FLUX, or STAND (only with mode = "overview").
-#' @param by a character string indicating how to summarize the data. Currently supports
-#' by year and total. The latter refers to the entire available period. For FLUX, day is also possible.
+#' @param by a character string indicating how to summarize the data with mode = "data": "year"
+#' (default) or "total" (entire available period). For FLUX, "day" is also possible; for TREE, only
+#' "year". Other values give an error. Ignored with mode = "overview".
 #' @param forcingDataset a character string providing the name of a forcingDataset.
 #' Only relevant for ISIMIP datasets.
 #' @param forcingCondition a character string providing the name of a forcingCondition.
@@ -48,7 +49,7 @@
 summarizeData <- function(dataset, site, location=NULL, forcingDataset = NULL,
                           forcingCondition = NULL,  by = "year",  period = NULL,
                           mode = "data"){
-  if (!by %in% c("year", "total", "day" )) stop("Invalid by value")
+  if (length(by) != 1 || !by %in% c("year", "total", "day" )) stop("Invalid by value")
 
   if (!mode %in% c("data", "overview" )) stop("Invalid mode value")
 
@@ -70,6 +71,11 @@ summarizeData <- function(dataset, site, location=NULL, forcingDataset = NULL,
                         forcingCondition = forcingCondition,collapse = T, period = period)
   # get Data
   if (tmp[["dataset"]] == "SITES")  stop("Can't summarize SITES")
+  if (mode == "data" && (tmp[["dataset"]] %in% c("CLIMATE_LOCAL", "TREE", "FLUX") || grepl("CLIMATE_ISIMIP", tmp[["dataset"]]))){
+    allowedBy <- if (tmp[["dataset"]] == "FLUX") c("year", "total", "day") else if (tmp[["dataset"]] == "TREE") "year" else c("year", "total")
+    if (!by %in% allowedBy) stop(paste0("by = \"", by, "\" is not available for ", dataset,
+                                        ". Possible values: ", paste(allowedBy, collapse = ", ")), call. = FALSE)
+  }
   #message(paste("Downloading data from" , tmp[["dataset"]], "for the site", site,  sep = " "))
   tmp <- try(fetchQuery(tmp), F)
   if ('try-error' %in% class(tmp))    stop("Could not fetch the query")

@@ -146,6 +146,17 @@ plotPROFOUND.STAND <-function(tmp){
 }
 
 
+# Converts data with a date column into a zoo object, aggregated by date, year-month or year if
+# aggregated is given. fixes #54: the unique row index replaces ts(), which recycled rows when
+# their number did not match the date range (e.g. half-hourly data)
+zooPROFOUND <- function(data, aggregated = NULL, FUN = mean){
+  x <- data.matrix(data)
+  if (is.null(aggregated)) return(zoo::zoo(x, data$date))
+  by <- switch(aggregated, date = , day = data$date,
+               month = zoo::as.yearmon(data$date), year = data$year)
+  aggregate(zoo::zoo(x), by, FUN = FUN)
+}
+
 plotPROFOUND.DAILY <-function(tmp, forcing = NULL){
   data <- tmp[["data"]]
   if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
@@ -154,23 +165,9 @@ plotPROFOUND.DAILY <-function(tmp, forcing = NULL){
   if(!"mo" %in% colnames(data)) stop("Missing mo!", call. = FALSE)
   if(!"day" %in% colnames(data)) stop("Missing day!", call. = FALSE)
   data$date <- as.Date(data$date, format = "%Y-%m-%d")
-  data.ts <- ts(data, start=min(data$date), end= max(data$date), frequency=1)
-  data.ts <- zoo::zoo(data.ts, data$date)
-  # Aggreated the data: day, year, month
+  data.ts <- zooPROFOUND(data, tmp[["aggregated"]], tmp[["FUN"]])
   aggText <- NULL
-  if (!is.null(tmp[["aggregated"]])){
-    aggText <- paste("aggregated by", tmp[["aggregated"]], sep = " ")#, "with", deparse(substitute(tmp[["FUN"]])), sep = " ")
-    if(tmp[["aggregated"]] == "day"){
-      data.ts <- aggregate(data.ts, data$day, FUN = tmp[["FUN"]])
-    }else if (tmp[["aggregated"]] == "month"){
-      data.ts <- aggregate(data.ts, data$mo, FUN = tmp[["FUN"]])
-    }else if (tmp[["aggregated"]] == "year"){
-      data.ts <- aggregate(data.ts, data$year, FUN = tmp[["FUN"]])
-    }else{
-      warning("Invalid aggregate value", call. = FALSE)
-      aggText <- NULL
-    }
-  }
+  if (!is.null(tmp[["aggregated"]])) aggText <- paste("aggregated by", tmp[["aggregated"]], sep = " ")
   plotVariables <- tmp[["variablesChecked"]][!grepl("_qc$",tmp[["variablesChecked"]] )]
   plotVariables <- plotVariables[plotVariables %in% names(data.ts) ]
   if(tmp[["automaticPanels"]] == T){
@@ -203,28 +200,13 @@ plotPROFOUND.HALFHOURLY <- function(tmp){
   if(!"mo" %in% colnames(data)) stop("Missing mo!", call. = FALSE)
   if(!"day" %in% colnames(data)) stop("Missing day!", call. = FALSE)
   data$date <- as.Date(data$date, format = "%Y-%m-%d")
-  data.ts <- ts(data, start=min(data$date), end= max(data$date), frequency=48)
-  data.ts <- zoo::zoo(data.ts, order.by = data$date, frequency=48)
-  # Aggreated the data: day, year, month
-  aggText <- NULL
   if (!is.null(tmp[["aggregated"]])){
-    aggText <- paste("aggregated by", tmp[["aggregated"]], sep = " ")#, "with", deparse(substitute(tmp[["FUN"]])), sep = " ")
-    if(tmp[["aggregated"]] == "day"){
-      data.ts <- aggregate(data.ts, data$day, FUN = tmp[["FUN"]])
-    }else if (tmp[["aggregated"]] == "month"){
-      data.ts <- aggregate(data.ts, data$mo, FUN = tmp[["FUN"]])
-    }else if (tmp[["aggregated"]] == "year"){
-      data.ts <- aggregate(data.ts, data$year, FUN = tmp[["FUN"]])
-    }else if (tmp[["aggregated"]] == "date"){
-      data.ts <- aggregate(data.ts, data$date, FUN = tmp[["FUN"]])
-    }else{
-      warning("Invalid aggregate value", call. = FALSE)
-      aggText <- NULL
-    }
+    aggText <- paste("aggregated by", tmp[["aggregated"]], sep = " ")
+    data.ts <- zooPROFOUND(data, tmp[["aggregated"]], tmp[["FUN"]])
   }else{
     message("Plotting averaged data from half-hourly")
-    aggText <- paste("aggregated by date with FUN =", deparse(substitute(mean)), sep = " ")
-    data.ts <- aggregate(data.ts, data$date, FUN = function(x)mean(x, na.rm = T))
+    aggText <- "aggregated by date with FUN = mean"
+    data.ts <- zooPROFOUND(data, "date", function(x) mean(x, na.rm = T))
   }
   plotVariables <- tmp[["variablesChecked"]][!grepl("_qc$",tmp[["variablesChecked"]] )]
   plotVariables <- plotVariables[plotVariables %in% names(data.ts) ]
@@ -256,8 +238,7 @@ plotPROFOUND.YEARLY <- function(tmp, forcing = NULL){
   if(!inherits(data, "data.frame")) stop(paste("Error when querying:", tmp[["item"]]), call. = FALSE)
   if(!"year" %in% colnames(data)) stop("Missing year!", call. = FALSE)
   data$date <- data$year
-  data.ts <- ts(data, start=min(data$date), end= max(data$date), frequency=1)
-  data.ts <- zoo::zoo(data.ts, data$date)
+  data.ts <- zooPROFOUND(data)
 
   plotVariables <- tmp[["variablesChecked"]][!grepl("_qc$",tmp[["variablesChecked"]] )]
   plotVariables <- plotVariables[plotVariables %in% names(data.ts) ]
@@ -288,18 +269,7 @@ plotPROFOUND.MODIS <- function(tmp){
   if(!"mo" %in% colnames(data)) stop("Missing mo!", call. = FALSE)
   if(!"day" %in% colnames(data)) stop("Missing day!", call. = FALSE)
   data$date <- as.Date(data$date, format = "%Y-%m-%d")
-  data.ts <- ts(data, start=min(data$date), end= max(data$date), frequency=1)
-  data.ts <- zoo::zoo(data.ts, data$date)
-  # Aggreated the data: day, year, month
-  if (!is.null(tmp[["aggregated"]])){
-    if(tmp[["aggregated"]] == "day"){
-      data.ts <- aggregate(data.ts, data$day, FUN = tmp[["FUN"]])
-    }else if (tmp[["aggregated"]] == "month"){
-      data.ts <- aggregate(data.ts, data$mo, FUN = tmp[["FUN"]])
-    }else if (tmp[["aggregated"]] == "year"){
-      data.ts <- aggregate(data.ts, data$year, FUN = tmp[["FUN"]])
-    }
-  }
+  data.ts <- zooPROFOUND(data, tmp[["aggregated"]], tmp[["FUN"]])
   plotVariables <- tmp[["variablesChecked"]][!grepl("_qc$",tmp[["variablesChecked"]] )]
   plotVariables <- plotVariables[!grepl("Cor$",plotVariables )]
   plotVariables <- plotVariables[plotVariables %in% names(data.ts) ]
@@ -321,46 +291,36 @@ plotPROFOUND.MODIS <- function(tmp){
            main =  paste( tmp[["dataset"]], ": ", plotVariables[i], sep =""),
            xlab = paste("Time period: ", as.character(min(data$date)),"-", as.character(max(data$date)),sep=" "),
            ylab = "Value", ylim = ylim)
+      if(!is.null(tmp[["aggregated"]])) mtext(paste("aggregated by", tmp[["aggregated"]]), side = 3, cex = 0.6)
     }
   }
 }
 
 plotPROFOUND.ISIMIP <- function(tmp){
   data <- tmp[["data"]]
-  if (inherits(data, "data.frame")){
-    # check whether is daily or yearly
-    if (!"date" %in% names(data)) {
-      tmp[["data"]] <- data[,colSums(is.na(data))<nrow(data)]
-      plotPROFOUND.YEARLY(tmp)
-    }else{
-      tmp[["data"]] <- data[,colSums(is.na(data))<nrow(data)]
-      plotPROFOUND.DAILY(tmp)
+  plotForcing <- function(df, forcing = NULL){
+    # fixes #54 (a forcing without data in the period stopped the plot with "Missing date!")
+    if (nrow(df) == 0){
+      warning(paste(tmp[["dataset"]], " ", forcing, ": No data to plot", sep = ""), call. = FALSE)
+      return(invisible())
     }
+    tmp[["data"]] <- df[,colSums(is.na(df))<nrow(df)]
+    # check whether is daily or yearly
+    if (!"date" %in% names(df)) plotPROFOUND.YEARLY(tmp, forcing = forcing) else plotPROFOUND.DAILY(tmp, forcing = forcing)
+  }
+  if (inherits(data, "data.frame")){
+    plotForcing(data)
   }else if (inherits(data, "list")){
     message("You are trying to plot several forcings. It will take long!")
     if (inherits(data[[1]], "list")){
       for (i in 1:length(data)){
         for (j in 1:length(data[[i]])){
-          # check whether is daily or yearly
-          if (!"date" %in% names(data[[i]][[j]])) {
-            tmp[["data"]] <- data[[i]][[j]][,colSums(is.na(data[[i]][[j]]))<nrow(data[[i]][[j]])]
-            plotPROFOUND.YEARLY( tmp , forcing = paste(names(data)[i],names(data[[i]])[j], sep="_") )
-          }else{
-            tmp[["data"]] <- data[[i]][[j]][,colSums(is.na(data[[i]][[j]]))<nrow(data[[i]][[j]])]
-            plotPROFOUND.DAILY(tmp , forcing = paste(names(data)[i],names(data[[i]])[j], sep="_"))
-          }
+          plotForcing(data[[i]][[j]], forcing = paste(names(data)[i],names(data[[i]])[j], sep="_"))
         }
       }
     }else if (inherits(data[[1]], "data.frame")){
       for (i in 1:length(data)){
-        # check whether is daily or yearly
-        if (!"date" %in% names(data[[i]])) {
-          tmp[["data"]] <- data[[i]][,colSums(is.na(data[[i]]))<nrow(data[[i]])]
-          plotPROFOUND.YEARLY( tmp, forcing = names(data)[i])
-        }else{
-          tmp[["data"]] <- data[[i]][,colSums(is.na(data[[i]]))<nrow(data[[i]])]
-          plotPROFOUND.DAILY(tmp,  forcing = names(data)[i])
-        }
+        plotForcing(data[[i]], forcing = names(data)[i])
       }
     }else{
       warning("You might have found a bug! Please report it", call. = FALSE)

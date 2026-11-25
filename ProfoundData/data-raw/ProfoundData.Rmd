@@ -478,13 +478,13 @@ plotData("FLUX", "soro", period = c("2011-01-01","2012-12-31"),
 
 ### aggregate
 
-You can also aggregate data by defining *aggregate* and *FUN*. The data can be aggregated by day, month, year or date, and any statistic is supported, e.g. median.
+You can also aggregate data by defining *aggregated* and *FUN*. The data can be aggregated by date (or day), month (one value per month of each year) or year, and any statistic is supported, e.g. median.
 
 ```{r, fig.width=6, fig.height=4, warning = F,echo=T, results="hide", message= F}
 plotData(dataset = "CLIMATE_ISIMIP2B", site ="soro",
          forcingDataset= "GFDLESM2M", forcingCondition="rcp2p6", 
-         variables = "tmax_degC", period = c("2020-01-01", "2022-01-01"),
-         aggregate = "month", FUN =median, automaticPanels = FALSE)
+         variables = "tmax_degC", period = c("2020-01-01", "2021-12-31"),
+         aggregated = "month", FUN =median, automaticPanels = FALSE)
 
 ```
 
