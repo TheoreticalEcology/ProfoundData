@@ -26,9 +26,10 @@ and time. These columns are followed by columns containing the output variables.
  The columns have to be named with the output variable name as required by the 2B
  protocol. See table 21.}
 
-\item{comment1}{Optional comment regarding your simulation}
+\item{comment1}{Optional comment regarding your simulation: one string for all
+files or one per output variable}
 
-\item{comment2}{Optional comment regarding your simulation}
+\item{comment2}{Optional comment regarding your simulation, as comment1}
 
 \item{institution}{Your institution}
 
