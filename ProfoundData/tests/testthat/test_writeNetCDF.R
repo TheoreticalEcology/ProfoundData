@@ -33,9 +33,13 @@ test_that("writeSim2netCDF() writes comments, checks input and names files by ti
   # old form: one comment per column of df
   expect_true(writeSim2netCDF(df, comment1 = c("", "", "", "a", "b"), folder = folder))
   expect_equal(readGlobal(list.files(folder, "cvegag", full.names = TRUE), "comment1"), "b")
-  unlink(list.files(folder, full.names = TRUE))
+})
 
-  # invalid input: FALSE with a message, and no file written
+test_that("writeSim2netCDF() rejects invalid input before writing any file", {
+  folder <- file.path(tempdir(), "i52invalid")
+  dir.create(folder, showWarnings = FALSE)
+  on.exit(unlink(folder, recursive = TRUE))
+  df <- data.frame(lon = 30, lat = 20, time = 2001:2003, dbh_total = 1:3, cvegag = c(.1, .2, .3))
   expect_message(expect_false(writeSim2netCDF(df, comment1 = c("a", "b", "c"), folder = folder)),
                  "comment1")
   expect_message(expect_false(writeSim2netCDF(df[, 1:3], folder = folder)), "no output variables")

@@ -28,7 +28,7 @@ Bugfixes
 - browseData(dataset = "DATASETS") also listed the site-specific tables (#46)
 - database queries left a connection open; queryDB() now also disconnects after a failed query and gives a clean error message (#46)
 - reportDB() used the large plot size for ATMOSPHERICHEATCONDUCTION (#46)
-- writeSim2netCDF() wrote comment1 and comment2 as "NA" unless given for every column; now also one string for all files or one per output variable (#52)
+- writeSim2netCDF() wrote comment1 and comment2 as "NA" unless given for every column; now also one string for all files or one per output variable; other lengths return FALSE (#52)
 - writeSim2netCDF() rejected tibbles, failed unclearly without output variables or with an invalid DBH class (e.g. dbh_fasy_x10), and wrote files before finding an invalid column name (#52)
 - writeSim2netCDF() took the years in the file name from the first and last row instead of the time range, left the file open after a failed write, and used the unit "kg C m2" for cvegag and cvegbg (now "kg m-2") (#52)
 - smaller fixes: "+" is now removed from dataset and species names, plotData() refuses SITEDESCRIPTION, getData() gives "Could not fetch the query" instead of "subscript out of bounds", and the warning about non-existing variables separates them with commas (#46)
