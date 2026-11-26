@@ -10,17 +10,10 @@ parseQuery <- function(dataset, site, forcingDataset = NULL,
                        aggregated = NULL, FUN = mean, automaticPanels = F, quality = NULL ,
                        decreasing = TRUE, collapse = TRUE){
 
-  conn <- try(makeConnection(), T)
-  if ('try-error' %in% class(conn)){
-    stop("Invalid database connection. Please use setDB() to connect to a valid DB", call. = FALSE)
-  }else{
-    RSQLite::dbDisconnect(conn)
-  }
+  period <- checkArgs(dataset, site, period)
   message("Parsing query")
   # Clean up the dataset and the dataset options
-  dataset <- gsub(" ", "",  dataset)
-  dataset <- gsub("-", "",  dataset)
-  dataset <- gsub("+", "", dataset, fixed = TRUE)
+  dataset <- cleanDataset(dataset)
   if(!is.null(forcingDataset)){
     forcingDataset <- gsub(" ", "",  forcingDataset)
     forcingDataset <- gsub("-", "",  forcingDataset)
@@ -60,9 +53,9 @@ parseQuery <- function(dataset, site, forcingDataset = NULL,
 
   if(is.null(tmp[["variables"]])) tmp[["dropVariables"]] <- F
   dataset <- getDatasets(tmp[["dataset"]])
-  if (!dataset) stop("Invalid dataset. Please use browseData() to see the available datasets", call. = FALSE)
+  if (!dataset) stop("Invalid dataset. Please use browseData(\"DATASETS\") to see the available datasets", call. = FALSE)
   if (tmp[["dataset"]] == "VERSION" || grepl("METADATA", tmp[["dataset"]]) || tmp[["dataset"]] == "POLICY" || tmp[["dataset"]] == "SOURCE" ){
-    stop(paste("Use browseData for accesing", tmp[["dataset"]]), call. = FALSE)
+    stop(paste("Use browseData for accessing", tmp[["dataset"]]), call. = FALSE)
   }
   message("Checking site")
   if(is.null(tmp[["site"]])){
@@ -73,7 +66,7 @@ parseQuery <- function(dataset, site, forcingDataset = NULL,
     }
   }else if(!is.null(tmp[["site"]])){
     tmp[["site"]] <- getsites(tmp[["site"]])
-    if (!tmp[["site"]])stop("Invalid site. Please use browseData to see the available sites", call. = FALSE)
+    if (!tmp[["site"]])stop("Invalid site. Please use browseData(\"SITES\") to see the available sites", call. = FALSE)
     message("Checking variables")
   #  cat(tmp[["dataset"]]); cat(tmp[["variables"]])
     tmp[["variablesChecked"]] <- parseVariables(tmp[["dataset"]], tmp[["variables"]])
@@ -86,7 +79,7 @@ parseQuery <- function(dataset, site, forcingDataset = NULL,
         # Chekc if sites are there
         if(!is.null(site)){
           site <- getsites(site)
-          if (!site){stop("Invalid site. Please use browseData to see the available sites", call. = FALSE)}
+          if (!site){stop("Invalid site. Please use browseData(\"SITES\") to see the available sites", call. = FALSE)}
         }
         tmp[["item"]] <- paste( "SELECT * FROM", tmp[["dataset"]],sep = " ")
         tmp[["site"]]<- 99

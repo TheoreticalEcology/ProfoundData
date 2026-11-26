@@ -48,3 +48,20 @@ test_that("writeSim2netCDF() rejects invalid input before writing any file", {
   expect_message(expect_false(writeSim2netCDF(cbind(df, foo = 1), folder = folder)), "foo")
   expect_length(list.files(folder), 0)
 })
+
+test_that("writeSim2netCDF() leaves out empty comments and removes all files after a failed write", {
+  folder <- file.path(tempdir(), "i55netcdf")
+  dir.create(folder, showWarnings = FALSE)
+  on.exit(unlink(folder, recursive = TRUE))
+  df <- data.frame(lon = 30, lat = 20, time = 2001:2003, dbh_total = 1:3, cvegag = c(.1, .2, .3))
+  expect_true(writeSim2netCDF(df, comment2 = "b", folder = folder))
+  f <- list.files(folder, "cvegag", full.names = TRUE)
+  expect_error(readGlobal(f, "comment1"), "not found")
+  expect_equal(readGlobal(f, "comment2"), "b")
+  unlink(list.files(folder, full.names = TRUE))
+
+  # RNetCDF fails for the character column after the file for dbh_total was written
+  df$cvegag <- c("a", "b", "c")
+  expect_message(expect_false(writeSim2netCDF(df, folder = folder)), "cvegag")
+  expect_length(list.files(folder), 0)
+})

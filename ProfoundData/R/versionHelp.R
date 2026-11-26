@@ -4,7 +4,7 @@
 #@return warning f
 #@export
 #@author Ramiro Silveyra Gonzalez
-#@import sqldf RSQLite DBI
+#@import RSQLite DBI
 versionHelp <- function(){
   # if no version available
   if(!"VERSION" %in% getDatasets()){

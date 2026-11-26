@@ -42,7 +42,6 @@ startStopPROFOUND.ISIMIP <- function(data){
           for(j in 1:length(forcingCondition)){
             index <- index + 1
             columnsYes <- colnames(data)[!colnames(data) %in% columnsNot]
-            columnsYes <- colnames(data)[!colnames(data) %in% columnsNot]
             columnsYes <- columnsYes[!columnsYes %in% c("year", "mo", "date", "day", "forcingDataset", "forcingCondition")]
             collector <-as.data.frame(matrix(rep(NA, length(columnsYes) * length(colnamesCol)),
                                              nrow = length(columnsYes), ncol = length(colnamesCol),
@@ -76,7 +75,6 @@ startStopPROFOUND.ISIMIP <- function(data){
       index <- 0
       for (i in 1:length(forcingDataset)){
         index <- index + 1
-        columnsYes <- colnames(data)[!colnames(data) %in% columnsNot]
         columnsYes <- colnames(data)[!colnames(data) %in% columnsNot]
         columnsYes <- columnsYes[!columnsYes %in% c("year",  "mo", "date", "day",  "forcingDataset", "forcingCondition")]
         collector <-as.data.frame(matrix(rep(NA, length(columnsYes) * length(colnamesCol)),

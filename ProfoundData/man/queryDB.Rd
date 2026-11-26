@@ -10,7 +10,7 @@ queryDB(queryItem)
 \item{queryItem}{a character string providing the query}
 }
 \value{
-a data frame with the result of the query.
+a data frame with the result of the query (with zero rows and a message if the query returns no rows).
 }
 \description{
 A queryDB function to perform self-defined queries on the PROFOUND database.

@@ -12,22 +12,15 @@ getMetadata <- function(dataset, site = NULL){
                       "forcingCondition", "forcingDataset",
                       "description", "reference",  "date", "year", "mo", "day")
 
-  conn <- try(makeConnection(), T)
-  if ('try-error' %in% class(conn)){
-    stop("Invalid database connection. Please use setDB() to connect to a valid DB", call. = FALSE)
-  }
-  #message(dataset_site)
   if(is.null(site)){
     if (!getDatasets(dataset) ){stop("Invalid dataset", call. = FALSE)}
-    table <- RSQLite::dbGetQuery(conn, paste("SELECT * FROM ", dataset, sep = ""))
-    RSQLite::dbDisconnect(conn)
+    table <- dbCall(RSQLite::dbGetQuery, paste("SELECT * FROM ", dataset, sep = ""))
   }else{
     site <- getsites(site)
     if (!getDatasets(dataset) || !site ){stop("Invalid dataset and/or site", call. = FALSE)}
     if(!checkAvailable(dataset, site)){stop("Metadata is not available", call. = FALSE)}
     dataset_site <- paste(dataset, site, sep="_")
-    table <- RSQLite::dbGetQuery(conn, paste("SELECT * FROM ", dataset_site, sep = ""))
-    RSQLite::dbDisconnect(conn)
+    table <- dbCall(RSQLite::dbGetQuery, paste("SELECT * FROM ", dataset_site, sep = ""))
   }
   tableVariables <- unique(table$variable)
   variablesOrder <- c(firstVariables[firstVariables %in% tableVariables],

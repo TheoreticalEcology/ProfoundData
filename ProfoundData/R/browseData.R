@@ -27,44 +27,22 @@
 #' @example /inst/examples/browseDataHelp.R
 #' @export
 browseData <- function(dataset = NULL, site = NULL,  location = NULL, variables  = FALSE, collapse = TRUE){
-
-  conn <- try(makeConnection(), T)
-  if ('try-error' %in% class(conn)){
-    stop("Invalid database connection. Please use setDB() to connect to a valid DB")
-  }else{
-    RSQLite::dbDisconnect(conn)
-  }
-
   if (!is.null(location)) {
     warning("Argument location is deprecated.\nPlease use site instead.",
             call. = FALSE)
     site <- location
   }
+  checkArgs(dataset, site)
+  if (!is.null(dataset)) dataset <- cleanDataset(dataset)
 
   # 1. See everything for site
   if(is.null(site) & is.null(dataset)){
-    conn <- makeConnection()
-    if (collapse){
-      table <- RSQLite::dbGetQuery(conn, "SELECT * FROM OVERVIEW")
-      RSQLite::dbDisconnect(conn)
-    }else{
-      table <- RSQLite::dbGetQuery(conn, "SELECT * FROM OVERVIEW_EXTENDED")
-      RSQLite::dbDisconnect(conn)
-    }
+    table <- dbCall(RSQLite::dbGetQuery, if (collapse) "SELECT * FROM OVERVIEW" else "SELECT * FROM OVERVIEW_EXTENDED")
     # return the entire table
     #cat("Returning the overview table")
     # prepare the query
   # 2. No site
   }else if(is.null(site)){
-    dataset <- gsub(" ", "",  dataset)
-    dataset <- gsub("-", "",  dataset)
-    dataset <- gsub("+", "", dataset, fixed = TRUE)
-    if(dataset == "ENERGYBALANCE"){
-      warning("Dataset 'ENERGYBALANCE' is deprecated.\nUse 'ATMOSPHERICHEATCONDUCTION' instead.",
-              call. = FALSE)
-      dataset <- "ATMOSPHERICHEATCONDUCTION"
-    }
-
     # a. See all dataset
     if(dataset == "DATASETS"){
       table <- getDatasets()
@@ -89,13 +67,8 @@ browseData <- function(dataset = NULL, site = NULL,  location = NULL, variables 
     }else if (dataset == "SITEDESCRIPTION" ){
      stop("Use getData to download this dataset")
     }else{
-      if(dataset == "ENERGYBALANCE"){
-        warning("Dataset 'ENERGYBALANCE' is deprecated.\nUse 'ATMOSPHERICHEATCONDUCTION' instead.",
-                call. = FALSE)
-        dataset <- "ATMOSPHERICHEATCONDUCTION"
-      }
 
-      if (!getDatasets(dataset)){stop("The dataset is not available. Please call getDatasets to see what datasets are available.")}
+      if (!getDatasets(dataset)){stop("The dataset is not available. Please use browseData(\"DATASETS\") to see the available datasets.")}
 
       # b. See all variables for all datast
       if(variables){
@@ -105,9 +78,7 @@ browseData <- function(dataset = NULL, site = NULL,  location = NULL, variables 
         #colnames(table) <- c("dataset", "variables")
       }else{
       # c. See what site have the dataset
-        conn <- makeConnection()
-        table <- RSQLite::dbGetQuery(conn, "SELECT * FROM OVERVIEW_EXTENDED")
-        RSQLite::dbDisconnect(conn)
+        table <- dbCall(RSQLite::dbGetQuery, "SELECT * FROM OVERVIEW_EXTENDED")
         columns <- c("site_id", "site", dataset)
         table <- table[table[[dataset]]==1, columns ]
       }
@@ -115,32 +86,15 @@ browseData <- function(dataset = NULL, site = NULL,  location = NULL, variables 
   }else if(is.null(dataset)){
     site <- getsites(site)
     # return the entire table
-    if (!site){stop("The site is not available. Please call getsites to see what sites are available.")}
-    conn <- makeConnection()
-    table <- RSQLite::dbGetQuery(conn, "SELECT * FROM OVERVIEW_EXTENDED")
-    RSQLite::dbDisconnect(conn)
+    if (!site){stop("The site is not available. Please use browseData(\"SITES\") to see the available sites.")}
+    table <- dbCall(RSQLite::dbGetQuery, "SELECT * FROM OVERVIEW_EXTENDED")
     table <- table[table$site_id == site, ] # c(1:14) THE entire table
 
   }else{
     site <- getsites(site)
-    dataset <- gsub(" ", "",  dataset)
-    dataset <- gsub("-", "",  dataset)
-    dataset <- gsub("+", "", dataset, fixed = TRUE)
-    if(dataset == "ENERGYBALANCE"){
-      warning("Dataset 'ENERGYBALANCE' is deprecated.\nUse 'ATMOSPHERICHEATCONDUCTION' instead.",  call. = FALSE
-              )
-      dataset <- "ATMOSPHERICHEATCONDUCTION"
-    }
-
     if (!getDatasets(dataset) || !site ){stop("Invalid dataset and/or site")}
     if (dataset == "VERSION"){
       table <- getVersion()
-#    }else if (dataset == "CO2_ISIMIP"){
-#      conn <- makeConnection()
-#      table <- RSQLite::dbGetQuery(conn, "SELECT * FROM OVERVIEW")
-#      RSQLite::dbDisconnect(conn)
-#      columns <- c("site_id", "name1", "name2", dataset)
-#      table <- table[table[[dataset]]==1, columns ]
     }else if (grepl("METADATA", dataset)){
       table <- getMetadata(dataset, site)
       #table <- table[table$dataset == dataset, ]

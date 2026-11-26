@@ -7,21 +7,18 @@
 #' @example /inst/examples/download-set-get-DBHelp.R
 #' @export
 getDB <- function(){
-  conn <- try(makeConnection(), T)
-  if ('try-error' %in% class(conn)){
-    stop("Invalid database connection. Please use setDB() to connect to a valid DB", call. = FALSE)
-  }else{
-    RSQLite::dbDisconnect(conn)
-  }
   versionHelp()
-  #return(getFromNamespace("db",  pos =  "package:ProfoundData")$path)
   return(dbConnection()$dbname)
 }
 
 #' @title A function to set the connection to the database
 #'
 #' @description A setDB function to create a database connection object
-#' @param db_name a character string providing the absolute path to the PROFOUND database.
+#' @param db_name a character string providing the path to the PROFOUND database. If not provided,
+#' a file dialog opens in interactive sessions.
+#' @details The function checks that the file is a PROFOUND database (tables OVERVIEW and SITES) and
+#' registers its absolute path. All other functions open the database read-only and stop with an error
+#' if no database is registered or the registered file no longer exists.
 #' @return invisibly, a list with the path to the database (\code{dbname}) and the database driver (\code{driver}) that are now used by the package.
 #' @export
 #' @seealso \code{\link{getDB}}, \code{\link{downloadDatabase}}  
@@ -29,23 +26,17 @@ getDB <- function(){
 #' @note To report errors in the package or the data, please use the issue tracker
 #' in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 setDB <- function(db_name = NULL){
-  if(is.null(db_name)) db_name <- file.choose()
-  
-  if (file.exists(db_name)){
-    #ProfoundData.env <- new.env()
-    #dbConnection() <- list(dbname = "somepath", driver = "somedriver")
-    if(grepl("sqlite", db_name)){
-      #dbConnection[["driver"]] <- SQLite()
-      temp <- RSQLite::SQLite()
-    }else{
-      stop("Unkown driver")
-    }
-    #dbConnection[["dbname"]] <- db_name
-    #ProfoundData.env$dbConnection <- dbConnection
-  }else{
-    stop("Please provide a valid path to DB")
+  if (is.null(db_name)) {
+    if (!interactive()) stop("Please provide db_name, the path to the PROFOUND database.", call. = FALSE)
+    db_name <- file.choose()
   }
-  dbConnection(dbname = db_name, driver = temp)
+  if (!is.character(db_name) || length(db_name) != 1 || !file.exists(db_name) || dir.exists(db_name))
+    stop("Please provide a valid path to the database", call. = FALSE)
+  db_name <- normalizePath(db_name, winslash = "/")
+  # a file that is not an SQLite database gives a warning when connecting and an error when listing tables
+  tables <- suppressWarnings(tryCatch(dbCall(RSQLite::dbListTables, db = db_name), error = function(e) NULL))
+  if (!all(c("OVERVIEW", "SITES") %in% tables)) stop("Not a PROFOUND database: ", db_name, call. = FALSE)
+  dbConnection(dbname = db_name, driver = RSQLite::SQLite())
 }
 
 

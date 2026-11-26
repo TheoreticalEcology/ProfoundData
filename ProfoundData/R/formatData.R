@@ -18,7 +18,7 @@ formatData <- function(tmp){
     #cat(tmp[["variables"]])
     #  if(!is.null(tmp[["variables"]]))
     if(tmp[["dropVariables"]])    tmp[["query"]] <- dropVariables(tmp[["query"]], tmp[["variablesChecked"]], tmp[["dataset"]])
-    if (grepl("CLIMATE_ISIMIP2B", tmp[["dataset"]]) || grepl("CLIMATE_ISIMIP2BBLC",  tmp[["dataset"]])  || grepl( "CLIMATE_ISIMIPFT", tmp[["dataset"]])){
+    if (grepl("CLIMATE_ISIMIP2B", tmp[["dataset"]])  || grepl( "CLIMATE_ISIMIPFT", tmp[["dataset"]])){
       data <- formatPROFOUND.ISIMIPDatasetConditions(tmp)
     }else if (grepl("CLIMATE_ISIMIP2A", tmp[["dataset"]])){
       data <- formatPROFOUND.ISIMIPDataset(tmp)

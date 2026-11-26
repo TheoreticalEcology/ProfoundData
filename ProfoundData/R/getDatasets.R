@@ -11,13 +11,8 @@
 # @keywords ProfoundData
 # @author Ramiro Silveyra Gonzalez
 getDatasets <- function(dataset = NULL){
-  conn <- try(makeConnection(), T)
-  if ('try-error' %in% class(conn)){
-    stop("Invalid database connection. Please use setDB() to connect to a valid DB", call. = FALSE)
-  }
-  datasets.available <- RSQLite::dbListTables(conn)
+  datasets.available <- dbCall(RSQLite::dbListTables)
   datasets.available <- datasets.available[!grepl("_master", datasets.available)]
-  RSQLite::dbDisconnect(conn)
   if(!is.null(dataset)){
     if (dataset %in% datasets.available){
       dataset.checked <- 1

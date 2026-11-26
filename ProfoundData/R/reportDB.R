@@ -20,11 +20,7 @@ reportDB <- function(outDir = tempdir()){
   }
   if (!rmarkdown::pandoc_available()) stop("reportDB() needs pandoc, see ?rmarkdown::pandoc_available", call. = FALSE)
 
-  conn <- try(makeConnection(), T)
-  if ('try-error' %in% class(conn)){
-    stop("Invalid database connection. Please use setDB() to connect to a valid DB", call. = FALSE)
-  }
-  RSQLite::dbDisconnect(conn)
+  RSQLite::dbDisconnect(makeConnection()) # stops if no valid database is registered
   # fixes #45 (render a copy in tempdir(), so that no files are written into the package library)
   workDir <- tempfile("reportDB")
   dir.create(workDir)

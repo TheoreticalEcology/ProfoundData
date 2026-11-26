@@ -29,7 +29,8 @@ and time. These columns are followed by columns containing the output variables.
 \item{comment1}{Optional comment regarding your simulation: one string for all
 files or one per output variable}
 
-\item{comment2}{Optional comment regarding your simulation, as comment1}
+\item{comment2}{Optional comment regarding your simulation, as comment1.
+Comments that are NA or empty are not written to the file.}
 
 \item{institution}{Your institution}
 

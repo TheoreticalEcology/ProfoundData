@@ -22,7 +22,7 @@ test_that("getData(), plotData() and summarizeData() pass on the error of parseQ
   skip_if_not(file.exists(databaseLocation), "PROFOUND_DB does not point to the database")
   skip_on_cran()
   setDB(db_name = databaseLocation)
-  msg <- "Invalid site. Please use browseData to see the available sites"
+  msg <- "Invalid site. Please use browseData(\"SITES\")"
   expect_error(getData("CLIMATE_LOCAL", site = "nosite"), msg, fixed = TRUE)
   expect_error(plotData("CLIMATE_LOCAL", site = "nosite"), msg, fixed = TRUE)
   expect_error(suppressMessages(summarizeData("CLIMATE_LOCAL", site = "nosite")), msg, fixed = TRUE)
