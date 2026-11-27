@@ -15,8 +15,10 @@
 #' @param decreasing a boolean indicating whether the quality threshold should be applied up- or downwards
 #' @param period a character array with either start or start and end of the subset.
 #'  It must have the format "YYYY-MM-DD", or c("YYYY-MM-DD", "YYYY-MM-DD").
-#' @param aggregated a boolean indicating whether data should be aggregated for display.
-#' Possible values are date, day, month and year.
+#' @param aggregated a character string indicating how data are aggregated for display:
+#' NULL (default, no aggregation; half-hourly data are shown as daily means with na.rm = TRUE), "date" or "day" (one value
+#' per date), "month" (one value per month of each year) or "year" (one value per year). Used for daily,
+#' half-hourly and MODIS data; other datasets are plotted as they are. Other values give an error.
 #' @param FUN a function to use for aggregating the data
 #' @param automaticPanels a boolean indicating whether the function automatically creates panels
 #' @return plots for the specified dataset, site and variables
@@ -46,6 +48,8 @@ plotData <- function(dataset, site, location=NULL,forcingDataset = NULL,
   notSupportedDatasets <- c("OVERVIEW", "SITES", "SOIL", "POLICY", "SOURCE", "SITEDESCRIPTION",
                             "OVERVIEW_EXTENDED")
   if(dataset %in% notSupportedDatasets) stop("Plotting is not supported")
+  if (!is.null(aggregated) && (length(aggregated) != 1 || !aggregated %in% c("date", "day", "month", "year")))
+    stop("Invalid aggregated value. Possible values are date, day, month and year", call. = FALSE)
   # parse and test the query
   tmp <- parseQuery(dataset =dataset, site = site,  forcingDataset = forcingDataset,
                         forcingCondition = forcingCondition, species = species,

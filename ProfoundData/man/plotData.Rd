@@ -40,8 +40,10 @@ Only relevant for ISIMIP datasets.}
 \item{period}{a character array with either start or start and end of the subset.
 It must have the format "YYYY-MM-DD", or c("YYYY-MM-DD", "YYYY-MM-DD").}
 
-\item{aggregated}{a boolean indicating whether data should be aggregated for display.
-Possible values are date, day, month and year.}
+\item{aggregated}{a character string indicating how data are aggregated for display:
+NULL (default, no aggregation; half-hourly data are shown as daily means with na.rm = TRUE), "date" or "day" (one value
+per date), "month" (one value per month of each year) or "year" (one value per year). Used for daily,
+half-hourly and MODIS data; other datasets are plotted as they are. Other values give an error.}
 
 \item{FUN}{a function to use for aggregating the data}
 
@@ -105,12 +107,12 @@ plotData(dataset = "FLUX", site = "soro", period = c("2011-01-01","2012-12-31"),
 # Plot aggregated data
 plotData(dataset = "CLIMATE_ISIMIP2B", site ="soro",  forcingDataset= "GFDLESM2M",
          forcingCondition="rcp2p6", variables = "tmax_degC",
-         period = c("2020-01-01", "2022-01-01"),
-         aggregate = "month", FUN =median)
+         period = c("2020-01-01", "2021-12-31"),
+         aggregated = "month", FUN =median)
 plotData(dataset = "CLIMATE_ISIMIP2B", site ="soro",  forcingDataset= "GFDLESM2M",
          forcingCondition="rcp2p6", variables = "p_mm",
-         period = c("2020-01-01", "2022-01-01"),
-         aggregate = "month", FUN =sum)
+         period = c("2020-01-01", "2021-12-31"),
+         aggregated = "month", FUN =sum)
 
 # Plot aggregated data with self-defined function. In this case, compare month
 # mean temperature of one year to mean of all period
@@ -121,8 +123,8 @@ difference <- function(x) {mean(x, na.rm = TRUE) -meanTemperature}
 
 plotData(dataset = "CLIMATE_ISIMIP2B", site ="soro",  forcingDataset= "GFDLESM2M",
          forcingCondition="rcp2p6", variables = "tmax_degC",
-         period = c("2020-01-01", "2021-01-01"),
-         aggregate = "month", FUN =difference)
+         period = c("2020-01-01", "2020-12-31"),
+         aggregated = "month", FUN =difference)
 abline(h = 0, col = "red")
 }
 }

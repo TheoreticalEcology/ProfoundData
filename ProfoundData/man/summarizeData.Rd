@@ -29,8 +29,9 @@ Only relevant for ISIMIP datasets.}
 \item{forcingCondition}{a character string providing the name of a forcingCondition.
 Only relevant for ISIMIP datasets.}
 
-\item{by}{a character string indicating how to summarize the data. Currently supports
-by year and total. The latter refers to the entire available period. For FLUX, day is also possible.}
+\item{by}{a character string indicating how to summarize the data with mode = "data": "year"
+(default) or "total" (entire available period). For FLUX, "day" is also possible; for TREE, only
+"year". Other values give an error. Ignored with mode = "overview".}
 
 \item{period}{a character array with either start or start and end of the subset.
 It must have the format "YYYY-MM-DD", or c("YYYY-MM-DD", "YYYY-MM-DD").}
@@ -96,8 +97,6 @@ data <-summarizeData(dataset ="CLIMATE_ISIMIP2B", site ="soro",
 
 
 # Summarize total period
-data <-summarizeData(dataset =  "TREE", site = "bily_kriz", by = "total",
-                     mode = "data")
 data <-summarizeData(dataset =  "CLIMATE_LOCAL", site = "bily_kriz", by = "total",
                      mode = "data")
 

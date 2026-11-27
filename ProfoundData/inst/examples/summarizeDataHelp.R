@@ -16,8 +16,6 @@ data <-summarizeData(dataset ="CLIMATE_ISIMIP2B", site ="soro",
 
 
 # Summarize total period
-data <-summarizeData(dataset =  "TREE", site = "bily_kriz", by = "total",
-                     mode = "data")
 data <-summarizeData(dataset =  "CLIMATE_LOCAL", site = "bily_kriz", by = "total",
                      mode = "data")
 
