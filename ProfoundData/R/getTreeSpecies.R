@@ -11,12 +11,7 @@
 # @keywords ProfoundData
 # @author Ramiro Silveyra Gonzalez
 getTreeSpecies <- function(species){
-  conn <- try(makeConnection(), T)
-  if ('try-error' %in% class(conn)){
-    stop("Invalid database connection. Please use setDB() to connect to a valid DB", call. = FALSE)
-  }
-  table <- RSQLite::dbGetQuery(conn, "SELECT * FROM TREESPECIES")
-  RSQLite::dbDisconnect(conn)
+  table <- dbCall(RSQLite::dbGetQuery, "SELECT * FROM TREESPECIES")
   if(!is.null(species)){
     if (species %in% table[["species"]]){
       species_id <- table[table$species==species,]$species_id

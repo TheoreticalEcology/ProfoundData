@@ -2,31 +2,18 @@
 #'
 #' @description A queryDB function to perform self-defined queries on the PROFOUND database.
 #' @param queryItem a character string providing the query
-#' @return a data frame with the result of the query.
+#' @return a data frame with the result of the query (with zero rows and a message if the query returns no rows).
 #' @export
 #' @example /inst/examples/queryDBHelp.R
 #' @note To report errors in the package or the data, please use the issue tracker
 #' in the GitHub repository of ProfoundData \url{https://github.com/TheoreticalEcology/ProfoundData}
 queryDB <- function(queryItem) {
-  # check the item, check if site is list or
-  #run.function <- TRUE
-  # now start the function itself
-  # make connection
-  conn <- makeConnection()
-  on.exit(RSQLite::dbDisconnect(conn))
-  # build query
-  # send the query
-  queried <- try(RSQLite::dbGetQuery(conn, queryItem), silent = TRUE)
-  result <- NULL
+  queried <- try(dbCall(RSQLite::dbGetQuery, queryItem), silent = TRUE)
   if ('try-error' %in% class(queried)) {
-    #result[[item]] <- dbGetException(conn) # do something about this
     stop(paste0("Error when querying: ", queryItem, " (", conditionMessage(attr(queried, "condition")), ")"))
-  }else if (length(queried[,1]) < 1){
-    stop(paste("Error when querying:", queryItem))
-  }else{
-    result <- queried
   }
-  return (result)
+  if (nrow(queried) < 1) message("The query returned no rows: ", queryItem)
+  return(queried)
 }
 
 

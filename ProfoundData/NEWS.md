@@ -15,6 +15,14 @@ Minor changes
 - vignettes rebuilt with database version 0.3: published data paper cited, outdated links updated (also those printed from the database tables); their sources in data-raw/ read the database path from PROFOUND_DB (#47)
 - writeSim2netCDF() has no default for folder (was "ISI-MIP" in the working directory); calls without folder now fail (#51)
 - getData(), plotData() and summarizeData() report the reason when a query cannot be parsed (e.g. an invalid site) instead of "Could not parse the query" (#51)
+- setDB() checks that the file is a PROFOUND database (tables OVERVIEW and SITES), accepts any file name and stores the absolute path; without a path it opens a file dialog only in interactive sessions (#53)
+- the database is opened read-only; data functions stop with a message pointing to setDB() if no database is registered (instead of opening a file dialog) or if the registered file no longer exists (#53)
+- getData() and browseData() check that dataset and site are single values and that period has the form "YYYY-MM-DD" with one or two dates, before querying the database (#53)
+- queryDB() returns an empty data frame with a message when the query returns no rows (was an error) (#55)
+- sqldf is no longer a dependency (#55)
+- writeSim2netCDF() help: comments that are NA or empty are not written to the file (#55)
+- tests of the main functions on a small synthetic database, so that they also run without the PROFOUND database (#55)
+- messages say "Reading data" instead of "Downloading data" and point to browseData() instead of internal functions; dead code and the unused internal function getSiteDescription() removed (#55)
 
 Bugfixes 
 
@@ -31,6 +39,10 @@ Bugfixes
 - writeSim2netCDF() wrote comment1 and comment2 as "NA" unless given for every column; now also one string for all files or one per output variable; other lengths return FALSE (#52)
 - writeSim2netCDF() rejected tibbles, failed unclearly without output variables or with an invalid DBH class (e.g. dbh_fasy_x10), and wrote files before finding an invalid column name (#52)
 - writeSim2netCDF() took the years in the file name from the first and last row instead of the time range, left the file open after a failed write, and used the unit "kg C m2" for cvegag and cvegbg (now "kg m-2") (#52)
+- a deleted or moved database was replaced by an empty file at the registered path, and setDB() accepted any existing file with "sqlite" in its path (#53)
+- a period of three or more dates returned the full time series, and a period in another format failed with an unclear as.Date() error (#53)
+- a failed query left the database connection open (#53)
+- writeSim2netCDF() left partly written files in the folder when RNetCDF failed while writing; now no files are left (#55)
 - smaller fixes: "+" is now removed from dataset and species names, plotData() refuses SITEDESCRIPTION, getData() gives "Could not fetch the query" instead of "subscript out of bounds", and the warning about non-existing variables separates them with commas (#46)
 
 # ProfoundData 0.2.1 

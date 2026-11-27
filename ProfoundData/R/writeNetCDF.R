@@ -23,7 +23,8 @@
 #' @param institution Your institution
 #' @param comment1 Optional comment regarding your simulation: one string for all
 #' files or one per output variable
-#' @param comment2 Optional comment regarding your simulation, as comment1
+#' @param comment2 Optional comment regarding your simulation, as comment1.
+#' Comments that are NA or empty are not written to the file.
 #'
 #' @details
 #' The function transforms your simulation output data frame into several netCDF
@@ -304,9 +305,10 @@ writeSim2netCDF<-function(df
         variables_long[i - 3] <- variable_long
       }
 
-      # write netCDF files
+      # write netCDF files; after a failed write, remove the files written so far
+      files <- character(0)
       for (j in seq_len(nvar)) {
-        written <- write.netCDF(df
+        written <- tryCatch(write.netCDF(df
                      ,colnames(df)[j + 3]
                      ,variable_long=variables_long[j]
                      ,unit= units[j]
@@ -320,8 +322,16 @@ writeSim2netCDF<-function(df
                      ,ses =ses
                      ,ss=ss
                      ,region=region
-                     ,folder=folder)
-        if (identical(written, FALSE)) return(FALSE)
+                     ,folder=folder),
+                     error = function(e) {
+                       message("Error: writing ", colnames(df)[j + 3], " failed: ", conditionMessage(e))
+                       FALSE
+                     })
+        if (identical(written, FALSE)) {
+          unlink(files)
+          return(FALSE)
+        }
+        files <- c(files, written)
         }
       return (TRUE)
       }
@@ -364,7 +374,11 @@ write.netCDF<-function(df
 
   #create file
   ncout <- RNetCDF::create.nc(filename)
-  on.exit(RNetCDF::close.nc(ncout))
+  done <- FALSE
+  on.exit({
+    RNetCDF::close.nc(ncout)
+    if (!done) unlink(filename) # no partly written file after a failed write
+  })
 
   #definitions
   RNetCDF::dim.def.nc(ncout, "lon", 1)
@@ -403,6 +417,8 @@ write.netCDF<-function(df
   RNetCDF::var.put.nc(ncout,"lat",df$lat[1],1,1)
   RNetCDF::var.put.nc(ncout,"time",df$time-1901,1,length(df$time))
   RNetCDF::var.put.nc(ncout,variable,df[[variable]],c(1,1,1),c(1,1,nrow(df)))
+  done <- TRUE
+  filename
 }
 
 

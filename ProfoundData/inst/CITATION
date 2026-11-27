@@ -1,8 +1,5 @@
 citHeader("To cite the 'ProfoundData' package in publications use:")
 
-year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
-vers <- paste("R package version", meta$Version)
-
 bibentry(
   bibtype = "Article",
 	title = "The PROFOUND Database for evaluating vegetation models and simulating climate impacts on European forests",

@@ -39,18 +39,12 @@ getData <- function(dataset, site = NULL, location = NULL, forcingDataset = NULL
             call. = FALSE)
     site <- location
   }
-  if(dataset == "ENERGYBALANCE"){
-    warning("Dataset 'ENERGYBALANCE' is deprecated.\nPlease use 'ATMOSPHERICHEATCONDUCTION' instead.",
-            call. = FALSE)
-    dataset <- "ATMOSPHERICHEATCONDUCTION"
-  }
-  
   # parse and test the query
   tmp <- parseQuery(dataset =dataset, site = site,  forcingDataset = forcingDataset,
                         forcingCondition = forcingCondition, species = species,
                         variables = variables, period = period, collapse = collapse,
                         quality = quality , decreasing = decreasing)
-  message(paste("Downloading data from" , dataset, "for the site", site,  sep = " "))
+  message(paste("Reading data from" , dataset, "for the site", site,  sep = " "))
   tmp <- try(fetchQuery(tmp), F)
   if ('try-error' %in% class(tmp)){
     stop("Could not fetch the query")

@@ -7,13 +7,19 @@
 setDB(db_name = NULL)
 }
 \arguments{
-\item{db_name}{a character string providing the absolute path to the PROFOUND database.}
+\item{db_name}{a character string providing the path to the PROFOUND database. If not provided,
+a file dialog opens in interactive sessions.}
 }
 \value{
 invisibly, a list with the path to the database (\code{dbname}) and the database driver (\code{driver}) that are now used by the package.
 }
 \description{
 A setDB function to create a database connection object
+}
+\details{
+The function checks that the file is a PROFOUND database (tables OVERVIEW and SITES) and
+registers its absolute path. All other functions open the database read-only and stop with an error
+if no database is registered or the registered file no longer exists.
 }
 \note{
 To report errors in the package or the data, please use the issue tracker
